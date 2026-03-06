@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static  %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static   'css/home.css' %}">
+</head>
+<body>
+    <div class="nav">
+      <img class="logo" src="{%  static  'images/logo og.png'  %}" alt="JerseyHub Logo" class="logo">
+      <div class="nav-links">
+      <a href="../home">Home</a>
+      <a href="../products">All Products</a>
+      <a href="{% url 'worldcup' %}">World Cup Jerseys</a>
+      <a href="{% url 'club' %}">Club Jerseys</a>
+      </div>
+      
+      <input class="search-box" type="search" name="search" id="" placeholder="Search by Football Players,club teams,national teams">
+      
+      
+     <a href=""> <img class="love" src="{%  static  'images/love.png'  %}" alt=""></a>
+      <a href=""><img class="cart" src="{%  static  'images/shopping-cart.png'  %}" alt=""></a>
+      
+      <div class="logout-btn">
+      <a href="../logout"><button class="logout">Logout</button></a>
+      </div>
+      </div>
+      <div class="slider-container">
+
+   
+
+    <div class="home-images">
+
+        <div class="imgs">
+            <img  src="{% static 'images/home1.jpeg' %}" alt="">
+        </div>
+
+        <div class="imgs">
+            <img src="{% static 'images/home2.jpeg' %}" alt="">
+        </div>
+
+        <div class="imgs">
+            <img src="{% static 'images/home3.jpeg' %}" alt="">
+        </div>
+
+        <div class="imgs">
+            <img src="{% static 'images/home4.jpeg' %}" alt="">
+        </div>
+
+        <div class="imgs">
+            <img src="{% static 'images/home5.jpeg' %}" alt="">
+        </div>
+
+    </div>
+
+    
+
+</div>
+<a href=""><h3 id="new">New Arrivals</h3></a>
+      <div class="jersey-container">
+        
+{% for jersey in new_arrivals %}
+   
+<div class="jersey-card">
+
+    <a href="{% url 'jersey_detail' jersey.id %}">
+        <img src="{{ jersey.image.url }}" class="jersey-img">
+    </a>
+
+    <div class="jersey-info">
+        <h3>{{ jersey.name }}</h3>
+        <p class="price">₹ {{ jersey.price }}</p>
+
+        <button class="cart-btn">Add to Cart</button>
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+<a href="../worldcup"><h3 id="world">World Cup Kits</h3></a>
+<div class="jersey-container">
+{% for jersey in worldcup_jerseys %}
+<div class="jersey-card">
+
+    <a href="{% url 'jersey_detail' jersey.id %}">
+        <img src="{{ jersey.image.url }}" class="jersey-img">
+    </a>
+
+    <div class="jersey-info">
+        <h3>{{ jersey.name }}</h3>
+        <p class="price">₹ {{ jersey.price }}</p>
+
+        <button class="cart-btn">Add to Cart</button>
+    </div>
+
+</div>
+
+{% endfor %}
+</div>
+<a href="../worldcup">
+<div class="world-img">
+
+<img src="{% static 'images/brazil.jpg' %}" alt="Brazil Jersey">
+</div>
+</a>
+<a href="../club"><h3 id="world">Club  Kits</h3></a>
+
+<div class="jersey-container">
+
+{% for jersey in club_jerseys %}
+
+<div class="jersey-card">
+
+<a href="{% url 'jersey_detail' jersey.id %}">
+<img src="{{ jersey.image.url }}" class="jersey-img">
+</a>
+
+<h3>{{ jersey.name }}</h3>
+
+<p>₹ {{ jersey.price }}</p>
+<button class="cart-btn">Add to Cart</button>
+
+</div>
+
+{% endfor %}
+
+</div>
+<a href="../club">
+<div class="club-img">
+
+<img src="{% static 'images/barcelona.jpg' %}" alt="Brazil Jersey">
+
+</div>
+</a>
+</body>
+<script>
+
+let slider = document.querySelector(".home-images");
+let slides = document.querySelectorAll(".imgs");
+
+let index = 0;
+
+function showSlide(){
+    slider.style.transform = `translateX(-${index * 100}%)`;
+}
+
+
+
+setInterval(() => {
+
+    index++;
+
+    if(index >= slides.length){
+        index = 0;
+    }
+
+    showSlide();
+
+}, 3000);
+
+</script>
+</html>

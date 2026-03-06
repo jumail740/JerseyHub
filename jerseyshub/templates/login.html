@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{%  static  'css/login.css'  %}">
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="left-section">
+   <img src="{%  static  'images/football.png'  %}" class="logo">
+
+   <h2>From Stadium to Street</h2>
+   <p>Discover and Shop the Latest Football Jerseys Online.</p>
+</div>
+    <div class="login-box">
+      <img src="{%  static  'images/logo og.png'  %}" alt="JerseyHub Logo" class="logo">
+
+       <h2 class="brand">JerseysHub</h2>
+
+  
+      <h1>Login to Your Account</h1>
+      <p class="subtitle">Welcome back to JerseyHub</p>
+      <form action="" method="post">
+        {% csrf_token %}
+
+        <div class="input-group">
+          <input type="text" name="username" placeholder="User Name" required>
+        </div>
+
+        <div class="input-group">
+          <input type="password" name="password" placeholder="Password" required>
+        </div>
+
+        
+        <button type="submit" class="login-btn">Log In</button>
+
+
+        <p class="signup-link">
+          Don’t have an account? <a href="../register">Sign Up</a>
+        </p>
+
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

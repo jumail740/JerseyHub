@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/jersey_detail.css' %}">
+</head>
+<body>
+   <div class="product-container">
+
+    <!-- Image Section -->
+    <div class="product-image">
+
+        <div class="img-box">
+            <img src="{{ jersey.image.url }}" id="mainImage">
+        </div>
+
+        <div class="thumbnail-container">
+            {% if jersey.img1 %}
+<img src="{{ jersey.img1.url }}" alt="" onclick="changeImage(this)">
+{% endif %}
+
+{% if jersey.img2 %}
+<img src="{{ jersey.img2.url }}" alt="" onclick="changeImage(this)">
+{% endif %}
+
+{% if jersey.img3 %}
+<img src="{{ jersey.img3.url }}" alt="" onclick="changeImage(this)">
+{% endif %}
+
+{% if jersey.img4 %}
+<img src="{{ jersey.img4.url }}" alt=""onclick="changeImage(this)">
+{% endif %}
+
+{% if jersey.img5 %}
+<img src="{{ jersey.img5.url }}" alt=""onclick="changeImage(this)">
+{% endif %}
+
+{% if jersey.img6 %}
+<img src="{{ jersey.img6.url }}" alt=""onclick="changeImage(this)">
+{% endif %}
+
+{% if jersey.img7 %}
+<img src="{{ jersey.img7.url }}" alt=""onclick="changeImage(this)">
+{% endif %}
+
+{% if jersey.img8 %}
+<img src="{{ jersey.img8.url }}" alt=""onclick="changeImage(this)">
+{% endif %}
+
+{% if jersey.img9 %}
+<img src="{{ jersey.img9.url }}" alt=""onclick="changeImage(this)">
+{% endif %}
+
+{% if jersey.img10 %}
+<img src="{{ jersey.img10.url }}" alt=""onclick="changeImage(this)">
+{% endif %}
+           
+
+
+
+        </div>
+
+    </div>
+
+
+    <!-- Product Info -->
+    <div class="product-info">
+
+        <h1>{{ jersey.name }}</h1>
+
+        <p class="price">₹ {{ jersey.price }}</p>
+
+        <p class="desc">
+        {{ jersey.description }}
+        </p>
+
+        <div class="sizes">
+            <h4>Select Size</h4>
+            <button>S</button>
+            <button>M</button>
+            <button>L</button>
+            <button>XL</button>
+        </div>
+
+        <div class="buttons">
+            <button class="cart-btn">Add to Cart</button>
+            <button class="buy-btn">Buy Now</button>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+</body>
+</html>
+<script>
+function changeImage(element){
+    document.getElementById("mainImage").src = element.src;
+}
+</script>

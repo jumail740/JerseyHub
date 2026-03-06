@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Jerseys</title>
+    <link rel="stylesheet" href="{%  static    'css/club.css'  %}">
+
+
+</head>
+<body>
+    <h2 style="text-align: center;">Club Jerseys</h2>
+
+<div class="jersey-container">
+
+{% for jersey in jerseys %}
+
+<div class="jersey-card">
+
+<a href="{% url 'jersey_detail' jersey.id %}">
+<img src="{{ jersey.image.url }}" class="jersey-img">
+</a>
+
+<h3>{{ jersey.name }}</h3>
+
+<p>₹ {{ jersey.price }}</p>
+        <button class="cart-btn">Add to Cart</button>
+
+
+</div>
+
+{% endfor %}
+
+</div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+.jersey-container{
+display:grid;
+grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+gap:40px;
+padding-top: 10px;
+
+}
+
+
+
+.jersey-card{
+background:white;
+border-radius:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+text-align:center;
+transition:0.3s;
+overflow:hidden;
+
+}
+
+.jersey-card:hover{
+transform:translateY(-8px);
+box-shadow:0 12px 25px rgba(0,0,0,0.15);
+}
+
+
+
+.jersey-img{
+width:100%;
+height:260px;
+object-fit:contain;
+padding:20px;
+}
+
+
+
+.jersey-info{
+padding:15px;
+}
+
+.jersey-info h3{
+font-size:20px;
+margin-bottom:5px;
+}
+
+.price{
+color:#e63946;
+font-size:18px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+
+
+.cart-btn{
+background:#e63946;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+transition:0.3s;
+}
+
+.cart-btn:hover{
+background:#c1121f;
+}

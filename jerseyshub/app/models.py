@@ -1,0 +1,41 @@
+from django.db import models
+from django.contrib.auth.models import User
+from datetime import datetime
+# Create your models here.
+class Profile(models.Model):
+    user=models.OneToOneField(User,on_delete=models.CASCADE)
+    phone=models.IntegerField()
+    
+    def __str__(self):
+        return self.user.username
+    
+    
+class Jersey(models.Model):
+    CATEGORY = (
+        ('club','Club Jersey'),
+        ('worldcup','World Cup Jersey'),
+    )
+
+    name=models.TextField()
+    team=models.TextField()
+    category = models.CharField(max_length=20, choices=CATEGORY)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    image=models.ImageField(upload_to='jerseys/')
+    img2 = models.ImageField(upload_to='jerseys/')
+    img3 = models.ImageField(upload_to='jersey/', null=True, blank=True)
+    img4= models.ImageField(upload_to='jerseys/',null=True, blank=True)
+    img5= models.ImageField(upload_to='jerseys/',null=True, blank=True)
+    img6= models.ImageField(upload_to='jerseys/',null=True, blank=True)
+    img7= models.ImageField(upload_to='jerseys/',null=True, blank=True)
+    img8= models.ImageField(upload_to='jerseys/',null=True, blank=True)
+    img9= models.ImageField(upload_to='jerseys/',null=True, blank=True)
+    img10= models.ImageField(upload_to='jerseys/',null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    description=models.TextField()
+    
+    def __str__(self):
+        return self.name
+    
+    
+# class Products(models.Model):
+    

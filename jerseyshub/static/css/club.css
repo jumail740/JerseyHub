@@ -9,6 +9,7 @@ padding-top: 10px;
 
 
 .jersey-card{
+    position: relative;
 background:white;
 border-radius:12px;
 box-shadow:0 8px 20px rgba(0,0,0,0.1);
@@ -65,4 +66,33 @@ transition:0.3s;
 
 .cart-btn:hover{
 background:#c1121f;
+}
+.stock{
+    color: red;
+    font-weight: bold;
+}
+.lowstock{
+    color: orange;
+    font-weight: bold;
+}
+.disabled{
+    background: gray;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.wishlist-btn{
+    position:absolute;
+    top:10px;
+    right:10px;
+    font-size:22px;
+    text-decoration:none;
+    
+}
+.heart{
+    color:black;
+    font-size:22px;
+}
+
+.heart.selected{
+    color:red;
 }

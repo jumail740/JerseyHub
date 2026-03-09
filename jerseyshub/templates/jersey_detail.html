@@ -10,7 +10,6 @@
 <body>
    <div class="product-container">
 
-    <!-- Image Section -->
     <div class="product-image">
 
         <div class="img-box">
@@ -65,8 +64,6 @@
 
     </div>
 
-
-    <!-- Product Info -->
     <div class="product-info">
 
         <h1>{{ jersey.name }}</h1>
@@ -76,7 +73,19 @@
         <p class="desc">
         {{ jersey.description }}
         </p>
+           {% if jersey.stock == 0 %}
+  <span class="soldout">Sold Out</span>
 
+  {% elif jersey.stock <= 5  %}
+  <span class="lowstock">Only {{ jersey.stock }} left </span> 
+  {% endif %}
+  <a href="" class="wishlist-btn">
+        {% if jersey.id in wishlist_products %}
+        <span class="heart selected">♥</span>
+    {% else %}
+        <span class="heart">♥</span>
+    {% endif %}
+    </a>
         <div class="sizes">
             <h4>Select Size</h4>
             <button>S</button>
@@ -86,8 +95,16 @@
         </div>
 
         <div class="buttons">
-            <button class="cart-btn">Add to Cart</button>
+             {% if jersey.stock > 0 %}
+        <button class="cart-btn">Add to Cart</button>
             <button class="buy-btn">Buy Now</button>
+
+  {% else %}
+  <button class="cart-btn disabled">Add to Cart</button>
+            <button class="buy-btn disabled">Buy Now</button>
+
+  {% endif %}
+  
         </div>
 
     </div>

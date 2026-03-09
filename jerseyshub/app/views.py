@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
 from .models import Profile
-from .models import Jersey
+from .models import Jersey,Wishlist
 
 
 # Create your views here.
@@ -45,36 +46,103 @@ def login_view(request):
             return redirect(home)
         else:
             messages.error(request,'invalid username or password')
+            return redirect('register')
     return render(request,'login.html')
 
+
+
+@login_required
 def logout_view(request):
     logout(request)
     return redirect(login_view)
 
+
+
+@login_required
 def home(request):
     new_arrivals = Jersey.objects.all().order_by('-created_at')[:8]
     worldcup_jerseys = Jersey.objects.filter(category='worldcup')[:8]
     club_jerseys= Jersey.objects.filter(category='club')[:8]
+    
+    whislist_jerseys= Wishlist.objects.filter(
+        user=request.user
+    ).values_list('jersey_id',flat=True)
+    wishlist_count = Wishlist.objects.filter(user=request.user).count()
 
     context = {
         "new_arrivals": new_arrivals,
         "worldcup_jerseys": worldcup_jerseys,
-        "club_jerseys":club_jerseys
+        "club_jerseys":club_jerseys,
+        "whislist_jerseys":whislist_jerseys,
+        'wishlist_count':wishlist_count,
     }
     return render(request,'homepage.html',context)
 
+
+@login_required
 def jersey_detail(request,id):
     jersey= get_object_or_404(Jersey,id=id)
-    return render(request,'jersey_detail.html',{'jersey':jersey})
+    whislist_jerseys= Wishlist.objects.filter(
+        user=request.user
+    ).values_list('jersey_id',flat=True)
+    wishlist_count = Wishlist.objects.filter(user=request.user).count()
+    context = {
+        'jersey': jersey,
+        'whislist_jerseys': whislist_jerseys,
+        'wishlist_count': wishlist_count
+    }
+    
+    return render(request,'jersey_detail.html',context)
 
+
+@login_required
 def products(request):
     jersey=Jersey.objects.all()
-    return render(request,'products.html',{'jersey':jersey})
+    whislist_jerseys= Wishlist.objects.filter(
+        user=request.user
+    ).values_list('jersey_id',flat=True)
+    wishlist_count= Wishlist.objects.filter(user=request.user).count()
+    context = {
+        'jersey': jersey,
+        'whislist_jerseys': whislist_jerseys,
+        'wishlist_count': wishlist_count
+    }
+    return render(request,'products.html',context)
 
+
+@login_required
 def club_jerseys(request):
     jerseys = Jersey.objects.filter(category='club')
-    return render(request,'club.html',{'jerseys': jerseys})
+    whislist_jerseys= Wishlist.objects.filter(
+        user=request.user
+    ).values_list('jersey_id',flat=True)
+    wishlist_count= Wishlist.objects.filter(user=request.user).count()
+    
+    return render(request,'club.html',{'jerseys': jerseys},{'whislist_jerseys':whislist_jerseys},{'wishlist_count':wishlist_count,})
 
+
+@login_required
 def worldcup_jerseys(request):
     jerseys = Jersey.objects.filter(category='worldcup')
-    return render(request,'worldcup.html',{'jerseys': jerseys})
+    whislist_jerseys= Wishlist.objects.filter(
+        user=request.user
+    ).values_list('jersey_id',flat=True)
+    wishlist_count= Wishlist.objects.filter(user=request.user).count()
+    
+    return render(request,'worldcup.html',{'jerseys': jerseys},{'whislist_jerseys':whislist_jerseys},{'wishlist_count':wishlist_count,})
+
+
+@login_required
+def add_to_wishlist(req,jersey_id):
+    jersey=Jersey.objects.get(id=jersey_id)
+    
+    Wishlist.objects.get_or_create(
+        user=req.user,
+        jersey=jersey
+    )
+    return redirect(req.META.get('HTTP_REFERER'))
+
+
+def wishlist_page(req):
+    wishlist_items =Wishlist.objects.filter(user=req.user)
+    return render(req,'wishlist.html',{'wishlist_items':wishlist_items})

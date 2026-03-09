@@ -30,6 +30,7 @@ class Jersey(models.Model):
     img8= models.ImageField(upload_to='jerseys/',null=True, blank=True)
     img9= models.ImageField(upload_to='jerseys/',null=True, blank=True)
     img10= models.ImageField(upload_to='jerseys/',null=True, blank=True)
+    stock= models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     description=models.TextField()
     
@@ -37,5 +38,11 @@ class Jersey(models.Model):
         return self.name
     
     
-# class Products(models.Model):
+class Wishlist(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    jersey=models.ForeignKey(Jersey,on_delete=models.CASCADE)
+    
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.jersey.name}"
     

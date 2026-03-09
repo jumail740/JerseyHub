@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>My Wishlist</h2>
+    <div class="wishlist-container">
+        {%  for item in wishlist_items  %}
+
+        <div class="wishlist-card">
+            <img src="{{ item.jersey.image.url }}" alt="" width="200">
+            <h3>{{ item.jersey.name }}</h3>
+            <p>₹ {{ item.jersey.price }}</p>
+        </div>
+        {% empty %}
+        <p>Your wishlist is empty</p>
+
+{% endfor %}
+
+</div>
+    </div>
+</body>
+</html>

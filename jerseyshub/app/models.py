@@ -33,6 +33,7 @@ class Jersey(models.Model):
     stock= models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     description=models.TextField()
+    players = models.TextField(blank=True)
     
     def __str__(self):
         return self.name
@@ -45,4 +46,12 @@ class Wishlist(models.Model):
     
     def __str__(self):
         return f"{self.user.username} - {self.jersey.name}"
+    
+class Cart(models.Model):
+    user= models.ForeignKey(User,on_delete=models.CASCADE)
+    jersey=models.ForeignKey(Jersey,on_delete=models.CASCADE)
+    quantity=models.IntegerField(default=1)
+    
+    def total_price(self):
+        return self.jersey.price * self.quantity
     

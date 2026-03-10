@@ -10,8 +10,6 @@ gap:80px;
 padding:60px;
 }
 
-
-
 .img-box{
 width:420px;
 height:420px;
@@ -115,6 +113,8 @@ border-radius:6px;
     padding-left: 150px;
     font-size:22px;
     text-decoration:none;
+    top: 40px;
+    width: 100px;
     
 }
 .heart{

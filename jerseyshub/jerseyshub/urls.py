@@ -27,11 +27,15 @@ urlpatterns = [
     path('',views.login_view),
     path('logout/',views.logout_view),
     path('jersey/<int:id>/',views.jersey_detail,name='jersey_detail'),
-    path('products/',views.products),
+    path('products/',views.products,name='products'),
     path('club/', views.club_jerseys, name='club'),
     path('worldcup/', views.worldcup_jerseys, name='worldcup'),
     path('wishlist/<int:jersey_id>/', views.add_to_wishlist, name='add_to_wishlist'),
     path('wishlist/',views.wishlist_page,name='wishlist_page'),
+    path('remove_wishlist/<int:jersey_id>/', views.remove_from_wishlist, name='remove_wishlist'),
+    path('add_to_cart/<int:jersey_id>/', views.add_to_cart, name='add_to_cart'),
+path('cart/', views.cart_page, name='cart_page'),
+path('remove_cart/<int:cart_id>/', views.remove_from_cart, name='remove_cart'),
     
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

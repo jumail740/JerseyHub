@@ -4,7 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
 from .models import Profile
-from .models import Jersey,Wishlist
+from .models import Jersey,Wishlist,Cart
+from django.db.models import Q
 
 
 # Create your views here.
@@ -97,7 +98,17 @@ def jersey_detail(request,id):
 
 @login_required
 def products(request):
-    jersey=Jersey.objects.all()
+    search = request.GET.get('search')
+
+    jersey = Jersey.objects.all()
+
+    if search:
+        jersey = jersey.filter(
+            Q(team__icontains=search) |
+            Q(players__icontains=search)|
+            Q(category__icontains=search)
+        )
+
     whislist_jerseys= Wishlist.objects.filter(
         user=request.user
     ).values_list('jersey_id',flat=True)
@@ -117,8 +128,13 @@ def club_jerseys(request):
         user=request.user
     ).values_list('jersey_id',flat=True)
     wishlist_count= Wishlist.objects.filter(user=request.user).count()
+    context = {
+        'jerseys': jerseys,
+        'whislist_jerseys': whislist_jerseys,
+        'wishlist_count': wishlist_count
+    }
     
-    return render(request,'club.html',{'jerseys': jerseys},{'whislist_jerseys':whislist_jerseys},{'wishlist_count':wishlist_count,})
+    return render(request,'club.html',context)
 
 
 @login_required
@@ -128,8 +144,12 @@ def worldcup_jerseys(request):
         user=request.user
     ).values_list('jersey_id',flat=True)
     wishlist_count= Wishlist.objects.filter(user=request.user).count()
-    
-    return render(request,'worldcup.html',{'jerseys': jerseys},{'whislist_jerseys':whislist_jerseys},{'wishlist_count':wishlist_count,})
+    context = {
+        'jerseys': jerseys,
+        'whislist_jerseys': whislist_jerseys,
+        'wishlist_count': wishlist_count
+    }
+    return render(request,'worldcup.html',context)
 
 
 @login_required
@@ -146,3 +166,50 @@ def add_to_wishlist(req,jersey_id):
 def wishlist_page(req):
     wishlist_items =Wishlist.objects.filter(user=req.user)
     return render(req,'wishlist.html',{'wishlist_items':wishlist_items})
+
+@login_required
+def remove_from_wishlist(request, jersey_id):
+
+    wishlist_item = Wishlist.objects.filter(
+        user=request.user,
+        jersey_id=jersey_id
+    )
+
+    wishlist_item.delete()
+
+    return redirect('wishlist_page')
+
+@login_required
+def add_to_cart(request, jersey_id):
+
+    jersey = get_object_or_404(Jersey, id=jersey_id)
+
+    cart_item, created = Cart.objects.get_or_create(
+        user=request.user,
+        jersey=jersey
+    )
+
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+
+    return redirect('cart_page')
+
+
+
+@login_required
+def cart_page(req):
+    cart_items=Cart.objects.filter(user=req.user)
+    total=0
+    for item in cart_items:
+        total += item.total_price()
+    
+    return render(req,'cart.html',{'cart_items':cart_items,"total":total})
+
+
+@login_required
+def remove_from_cart(request, cart_id):
+    item = Cart.objects.get(id=cart_id)
+    item.delete()
+    
+    return redirect('cart_page')

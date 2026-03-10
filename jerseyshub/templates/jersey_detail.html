@@ -66,7 +66,7 @@
 
     <div class="product-info">
 
-        <h1>{{ jersey.name }}</h1>
+        <h1>{{ jersey.team }}</h1>
 
         <p class="price">₹ {{ jersey.price }}</p>
 
@@ -79,11 +79,11 @@
   {% elif jersey.stock <= 5  %}
   <span class="lowstock">Only {{ jersey.stock }} left </span> 
   {% endif %}
-  <a href="" class="wishlist-btn">
+  <a href="{% url 'add_to_wishlist' jersey.id %}" class="wishlist-btn">
         {% if jersey.id in wishlist_products %}
-        <span class="heart selected">♥</span>
+        <span class="heart selected">♡</span>
     {% else %}
-        <span class="heart">♥</span>
+        <span class="heart">♡</span>
     {% endif %}
     </a>
         <div class="sizes">
@@ -96,7 +96,9 @@
 
         <div class="buttons">
              {% if jersey.stock > 0 %}
-        <button class="cart-btn">Add to Cart</button>
+         <a href="{% url 'add_to_cart' jersey.id %}">
+<button class="cart-btn">Add to Cart</button>
+</a>
             <button class="buy-btn">Buy Now</button>
 
   {% else %}

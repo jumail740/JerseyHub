@@ -10,8 +10,13 @@
 
 </head>
 <body>
-    <h2 style="text-align: center;">Club Jerseys</h2>
+    <div class="nav">
+         <a href="{% url 'home'  %}">
+        <button class="back-btn">Go Back</button>
+    </a>
 
+    <h2 style="text-align: center;">Club Jerseys</h2>
+</div>
 <div class="jersey-container">
 
 {% for jersey in jerseys %}

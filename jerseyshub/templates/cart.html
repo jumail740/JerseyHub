@@ -1,29 +1,57 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+{% load static %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart</title>
+
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+
 </head>
 <body>
-    <h2>MY CART</h2>
-     
+    <div class="nav">
+         <a href="{% url 'home'  %}">
+        <button class="back-btn">Go Back</button>
+    </a>
+
+<h2>MY CART</h2>
+    </div>
+   
+
+<div class="full">
+
 {% for item in cart_items %}
 
 <div class="cart-card">
 
+<div class="img-nam">
+
 <img src="{{ item.jersey.image.url }}" width="150">
 
-<h3>{{ item.jersey.name }}</h3>
+<h3 class="name">{{ item.jersey.team }}</h3>
 
-<p>Price: ₹ {{ item.jersey.price }}</p>
+<p class="price">Price: ₹ {{ item.jersey.price }}</p>
 
-<p>Quantity: {{ item.quantity }}</p>
+</div>
 
-<p>Total: ₹ {{ item.total_price }}</p>
 
-<a href="{% url 'remove_cart' item.id %}">
-<button>Remove</button>
+<div class="quantity-box">
+
+<a href="{% url 'decrease_quantity' item.id %}">
+<button>-</button>
+</a>
+
+<span>{{ item.quantity }}</span>
+
+<a href="{% url 'increase_quantity' item.id %}">
+<button>+</button>
+</a>
+
+</div>
+<a href="{% url 'remove_cart' item.id %}" class="remove-btn">
+Remove
 </a>
 
 </div>
@@ -34,7 +62,17 @@
 
 {% endfor %}
 
+</div>
+
+
+<div class="total">
+
 <h3>Total Price: ₹ {{ total }}</h3>
+
+<a href="#" class="buy-btn">BUY NOW</a>
+
+</div>
+
 
 </body>
 </html>

@@ -8,7 +8,13 @@
     <link rel="stylesheet" href="{%  static  'css/Products.css' %}">
 </head>
 <body>
+    <div class="nav">
+         <a href="{% url 'home'  %}">
+        <button class="back-btn">Go Back</button>
+    </a>
     <h2>Products</h2>
+
+</div>
     <div class="jerseys">
         {% for jersey in jersey %}
         <div class="jersey-card">

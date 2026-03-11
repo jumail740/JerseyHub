@@ -1,3 +1,11 @@
+h2{
+    
+     text-align:center;
+    margin-top:30px;
+    letter-spacing:2px;
+    padding-left: 500px;
+}
+
 .jersey-container{
     width: 100%;
 display:grid;
@@ -98,4 +106,23 @@ background:#c1121f;
 
 .heart.selected{
     color:red;
+}
+.back-btn{
+background:#e63946;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+transition:0.3s;
+}
+
+.back-btn:hover{
+background:#c1121f;
+}
+
+.nav{
+    display: flex;
+    justify-content: flex-start;
 }

@@ -10,7 +10,14 @@
 </head>
 
 <body>
+     <div class="nav">
+         <a href="{% url 'home'  %}">
+        <button class="back-btn">Go Back</button>
+    </a>
     <h2>My Wishlist</h2>
+
+</div>
+    
     
 
         <div class="jersey-container">
@@ -18,9 +25,9 @@
 {% for item in wishlist_items %}
 
 <div class="jersey-card">
-<img src="{{ item.jersey.image.url }}" alt="" ><a href="{% url 'remove_wishlist' item.jersey.id %}" class="remove-btn">
-❌ 
-</a>
+<img src="{{ item.jersey.image.url }}" alt="">
+
+
 <h3>{{ item.jersey.team }}</h3>
 <p>₹ {{ item.jersey.price }}</p>
 
@@ -31,10 +38,8 @@
 <span class="lowstock">Only {{ item.jersey.stock }} left</span>
 {% endif %}
 
- <a href="{% url 'add_to_cart' jersey.id %}">
-<button class="cart-btn">Add to Cart</button>
-</a>
-
+<a href="{% url 'add_to_cart' item.jersey.id %}" class="cart-btn">Add to Cart</a>
+<a href="{% url 'remove_wishlist' item.jersey.id %}" class="remove-btn">Remove</a>
 </div>
 
 

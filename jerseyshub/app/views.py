@@ -69,6 +69,14 @@ def home(request):
         user=request.user
     ).values_list('jersey_id',flat=True)
     wishlist_count = Wishlist.objects.filter(user=request.user).count()
+    for jersey in new_arrivals:
+        jersey.total_stock = sum(size.stock for size in jersey.sizes.all())
+
+    for jersey in worldcup_jerseys:
+        jersey.total_stock = sum(size.stock for size in jersey.sizes.all())
+
+    for jersey in club_jerseys:
+        jersey.total_stock = sum(size.stock for size in jersey.sizes.all())
 
     context = {
         "new_arrivals": new_arrivals,
@@ -81,19 +89,31 @@ def home(request):
 
 
 @login_required
-def jersey_detail(request,id):
-    jersey= get_object_or_404(Jersey,id=id)
-    whislist_jerseys= Wishlist.objects.filter(
+def jersey_detail(request, id):
+
+    jersey = get_object_or_404(Jersey, id=id)
+
+    wishlist_jerseys = Wishlist.objects.filter(
         user=request.user
-    ).values_list('jersey_id',flat=True)
+    ).values_list('jersey_id', flat=True)
+
     wishlist_count = Wishlist.objects.filter(user=request.user).count()
+
+    size_list = ["S", "M", "L", "XL"]
+    sizes = {}
+
+    for s in size_list:
+        obj = jersey.sizes.filter(size=s).first()
+        sizes[s] = obj.stock if obj else 0
+
     context = {
         'jersey': jersey,
-        'whislist_jerseys': whislist_jerseys,
-        'wishlist_count': wishlist_count
+        'wishlist_jerseys': wishlist_jerseys,
+        'wishlist_count': wishlist_count,
+        'sizes': sizes
     }
-    
-    return render(request,'jersey_detail.html',context)
+
+    return render(request, 'jersey_detail.html', context)
 
 
 @login_required
@@ -212,4 +232,21 @@ def remove_from_cart(request, cart_id):
     item = Cart.objects.get(id=cart_id)
     item.delete()
     
+    return redirect('cart_page')
+
+@login_required
+def inc_quantity(req,cart_id):
+    cart_item= Cart.objects.get(id=cart_id)
+    
+    cart_item.quantity +=1
+    cart_item.save()
+    return redirect('cart_page')
+
+@login_required
+def dec_quantity(req,cart_id):
+    cart_item= Cart.objects.get(id=cart_id)
+    
+    if cart_item.quantity > 1:
+       cart_item.quantity -=1
+       cart_item.save()
     return redirect('cart_page')

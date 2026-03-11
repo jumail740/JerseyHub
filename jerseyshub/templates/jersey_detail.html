@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="{% static 'css/jersey_detail.css' %}">
 </head>
 <body>
+    <div class="nav">
+         <a href="{% url 'home'  %}">
+        <button class="back-btn">Go Back</button>
+    </a>
+</div>
    <div class="product-container">
 
     <div class="product-image">
@@ -65,13 +70,22 @@
     </div>
 
     <div class="product-info">
-
+        <div class="wish">
+          <a href="{% url 'add_to_wishlist' jersey.id %}" class="wishlist-btn">
+        {% if jersey.id in wishlist_products %}
+        <span class="heart selected">♡</span>
+    {% else %}
+        <span class="heart">♡</span>
+    {% endif %}
+    </a>
+    </div>
         <h1>{{ jersey.team }}</h1>
 
         <p class="price">₹ {{ jersey.price }}</p>
 
         <p class="desc">
         {{ jersey.description }}
+        
         </p>
            {% if jersey.stock == 0 %}
   <span class="soldout">Sold Out</span>
@@ -79,35 +93,48 @@
   {% elif jersey.stock <= 5  %}
   <span class="lowstock">Only {{ jersey.stock }} left </span> 
   {% endif %}
-  <a href="{% url 'add_to_wishlist' jersey.id %}" class="wishlist-btn">
-        {% if jersey.id in wishlist_products %}
-        <span class="heart selected">♡</span>
-    {% else %}
-        <span class="heart">♡</span>
-    {% endif %}
-    </a>
-        <div class="sizes">
-            <h4>Select Size</h4>
-            <button>S</button>
-            <button>M</button>
-            <button>L</button>
-            <button>XL</button>
-        </div>
-
-        <div class="buttons">
-             {% if jersey.stock > 0 %}
-         <a href="{% url 'add_to_cart' jersey.id %}">
-<button class="cart-btn">Add to Cart</button>
-</a>
-            <button class="buy-btn">Buy Now</button>
-
-  {% else %}
-  <button class="cart-btn disabled">Add to Cart</button>
-            <button class="buy-btn disabled">Buy Now</button>
-
-  {% endif %}
   
-        </div>
+    <a href="#" class="customize-toggle" onclick="toggleCustomize()">Customize Jersey</a>
+
+<div class="customize" id="customizeBox">
+
+<label>Player Name</label>
+<input type="text" placeholder="Enter Name">
+
+<label>Number</label>
+<input type="number" min="0" max="99" placeholder="10">
+
+</div>
+       <div class="sizes">
+
+<h4>Select Size</h4>
+
+<div class="size-buttons">
+
+{% for size, stock in sizes.items %}
+
+<button 
+class="size-btn {% if stock == 0 %}out-stock{% endif %}"
+{% if stock == 0 %}disabled{% endif %}>
+
+{{ size }}
+
+</button>
+
+{% endfor %}
+
+</div>
+<div class="buttons">
+
+<a href="{% url 'add_to_cart' jersey.id %}" class="cart-btn">
+Add to Cart
+</a>
+
+<a href="" class="buy-btn">
+Buy Now
+</a>
+
+</div>
 
     </div>
 
@@ -119,5 +146,29 @@
 <script>
 function changeImage(element){
     document.getElementById("mainImage").src = element.src;
+}
+let sizes = document.querySelectorAll(".size-btn");
+
+sizes.forEach(function(btn){
+
+btn.addEventListener("click", function(){
+
+sizes.forEach(function(b){
+b.classList.remove("active");
+});
+
+this.classList.add("active");
+
+});
+
+});
+function toggleCustomize(){
+let box = document.getElementById("customizeBox");
+
+if(box.style.display === "flex"){
+    box.style.display = "none";
+}else{
+    box.style.display = "flex";
+}
 }
 </script>

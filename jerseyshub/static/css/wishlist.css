@@ -1,5 +1,9 @@
 h2{
-    text-align: center;
+    
+     text-align:center;
+    margin-top:30px;
+    letter-spacing:2px;
+    padding-left: 500px;
 }
 
 .jersey-container{
@@ -10,7 +14,7 @@ padding:20px;
 }
 
 .jersey-card{
-    width: 250px;
+    width: 300px;
 background:white;
 border-radius:12px;
 box-shadow:0 8px 20px rgba(0,0,0,0.1);
@@ -87,8 +91,39 @@ background:#c1121f;
     color: red;
     font-weight: bold;
 }
+a{
+    text-decoration: none;
+}
 .remove-btn{
-    position: relative;
-    left: 130px;
-    top: 130px;
+background:#e63946;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+transition:0.3s;
+}
+
+.remove-btn:hover{
+background:#c1121f;
+}
+.back-btn{
+background:#e63946;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+transition:0.3s;
+}
+
+.back-btn:hover{
+background:#c1121f;
+}
+
+.nav{
+    display: flex;
+    justify-content: flex-start;
 }

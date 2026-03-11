@@ -30,13 +30,13 @@ class Jersey(models.Model):
     img8= models.ImageField(upload_to='jerseys/',null=True, blank=True)
     img9= models.ImageField(upload_to='jerseys/',null=True, blank=True)
     img10= models.ImageField(upload_to='jerseys/',null=True, blank=True)
-    stock= models.IntegerField(default=0)
+    
     created_at = models.DateTimeField(auto_now_add=True)
     description=models.TextField()
     players = models.TextField(blank=True)
     
     def __str__(self):
-        return self.name
+        return self.team
     
     
 class Wishlist(models.Model):
@@ -55,3 +55,17 @@ class Cart(models.Model):
     def total_price(self):
         return self.jersey.price * self.quantity
     
+class JerseySize(models.Model):
+    SIZE_CHOICES=(
+        ('S','S'),
+        ('M','M'),
+        ('L','L'),
+        ('XL','XL'),
+    )
+    
+    jersey=models.ForeignKey(Jersey,on_delete=models.CASCADE, related_name="sizes")
+    size=models.CharField(max_length=5,choices=SIZE_CHOICES)
+    stock=models.IntegerField(default=0)
+    
+    def __str__(self):
+        return f"{self.jersey.team} - {self.size}"

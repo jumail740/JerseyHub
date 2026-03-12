@@ -40,13 +40,13 @@
   {% elif jersey.stock <= 5  %}
   <span class="lowstock">Only {{ jersey.stock }} left </span> 
   {% endif %}
-        {% if jersey.stock > 0 %}
+        {% if jersey.total_stock > 0 %}
         <a href="{% url 'add_to_cart' jersey.id %}">
-<button class="cart-btn">Add to Cart</button>
-</a>
-  {% else %}
-  <button class="cart-btn disabled">Add to Cart</button>
-  {% endif %}
+            <button class="cart-btn">Add to Cart</button>
+        </a>
+    {% else %}
+        <button class="cart-btn disabled">Add to Cart</button>
+    {% endif %}
 
 </div>
 

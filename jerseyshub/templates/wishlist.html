@@ -5,49 +5,52 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>My Wishlist - JerseyHub</title>
     <link rel="stylesheet" href="{%  static   'css/wishlist.css'  %}">
 </head>
 
 <body>
-     <div class="nav">
-         <a href="{% url 'home'  %}">
-        <button class="back-btn">Go Back</button>
-    </a>
-    <h2>My Wishlist</h2>
+    <div class="nav">
+        <a href="{% url 'home'  %}">
+            <button class="back-btn">← Back to Home</button>
+        </a>
+        <h2>My Wishlist</h2>
+    </div>
 
-</div>
-    
-    
+    <div class="jersey-container">
+        {% for item in wishlist_items %}
+            <div class="jersey-card">
+                 <a href="{% url 'jersey_detail' item.jersey.id %}">
+                     <img src="{{ item.jersey.image.url }}" alt="{{ item.jersey.team }}">
+                </a>
+               
+                <h3>{{ item.jersey.team }}</h3>
+                <p class="price">₹ {{ item.jersey.price }}</p>
 
-        <div class="jersey-container">
+                {% if item.jersey.stock == 0 %}
+                    <span class="soldout">Sold Out</span>
+                {% elif item.jersey.stock <= 5 %}
+                    <span class="lowstock">Only {{ item.jersey.stock }} left</span>
+                {% endif %}
 
-{% for item in wishlist_items %}
-
-<div class="jersey-card">
-<img src="{{ item.jersey.image.url }}" alt="">
-
-
-<h3>{{ item.jersey.team }}</h3>
-<p>₹ {{ item.jersey.price }}</p>
-
-{% if item.jersey.stock == 0 %}
-<span class="soldout">Sold Out</span>
-
-{% elif item.jersey.stock <= 5 %}
-<span class="lowstock">Only {{ item.jersey.stock }} left</span>
+                <div class="button-group">
+                    {% if item.jersey.total_stock > 0 %}
+<a href="{% url 'add_to_cart' item.jersey.id %}">
+<button class="Cart-btn">Add to Cart</button>
+</a>
+{% else %}
+<button class="disabled">Out of Stock</button>
 {% endif %}
 
-<a href="{% url 'add_to_cart' item.jersey.id %}" class="cart-btn">Add to Cart</a>
-<a href="{% url 'remove_wishlist' item.jersey.id %}" class="remove-btn">Remove</a>
-</div>
-
-
-{% endfor %}
-
-</div>
-
-    </div>
+                    <a href="{% url 'remove_wishlist' item.jersey.id %}" class="remove-btn">Remove</a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty-message">
+                <p>Your wishlist is empty</p>
+                <a href="{% url 'home' %}" class="continue-btn">Continue Shopping</a>
+            </div>
+        {% endfor %}
     </div>
 </body>
 

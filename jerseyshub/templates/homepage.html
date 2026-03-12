@@ -4,220 +4,284 @@
     {% load static  %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>JerseyHub - Premium Football Jerseys</title>
     <link rel="stylesheet" href="{% static   'css/home.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="nav">
-      <img class="logo" src="{%  static  'images/logo og.png'  %}" alt="JerseyHub Logo" class="logo">
-      <div class="nav-links">
-      <a href="../home">Home</a>
-      <a href="../products">All Products</a>
-      <a href="{% url 'worldcup' %}">World Cup Jerseys</a>
-      <a href="{% url 'club' %}">Club Jerseys</a>
-      </div>
-      <form method="GET" action="{% url 'products' %}">
-<input class="search-box" type="search" name="search" placeholder="Search by players, clubs, nations">
-</form>
-      
-      
-     <a href="{% url 'wishlist_page' %}" class="wishlist-icon">
-         <img class="love" src="{%  static  'images/love.png'  %}" alt="">
-    <span class="wishlist-count">{{ wishlist_count }}</span></a>
-
-      <a href="{% url 'cart_page' %}"><img class="cart" src="{%  static  'images/shopping-cart.png'  %}" alt=""></a>
-      
-      <div class="logout-btn">
-      <a href="../logout"><button class="logout">Logout</button></a>
-      </div>
-      </div>
-      <div class="slider-container">
-
-   
-
-    <div class="home-images">
-
-        <div class="imgs">
-            <img  src="{% static 'images/home1.jpeg' %}" alt="">
+        <img class="logo" src="{%  static  'images/logo og.png'  %}" alt="JerseyHub Logo">
+        
+        <div class="nav-links">
+            <a href="../home">Home</a>
+            <a href="../products">All Products</a>
+            <a href="{% url 'worldcup' %}">World Cup Jerseys</a>
+            <a href="{% url 'club' %}">Club Jerseys</a>
         </div>
+        
+        <form method="GET" action="{% url 'products' %}">
+            <input class="search-box" type="search" name="search" placeholder="Search by players, clubs, nations">
+        </form>
+        
+        <a href="{% url 'wishlist_page' %}" class="wishlist-icon">
+            <img class="love" src="{% static 'images/love.png' %}" alt="">
+            {% if wishlist_count > 0 %}
+                <span class="wishlist-count">{{ wishlist_count }}</span>
+            {% endif %}
+        </a>
+        
+       <a href="{% url 'cart_page' %}" class="cart-icon">
+    <img class="cart" src="{% static 'images/shopping-cart.png' %}" alt="">
 
-        <div class="imgs">
-            <img src="{% static 'images/home2.jpeg' %}" alt="">
+    {% if cart_count %}
+    <span class="cart-count">{{ cart_count }}</span>
+    {% endif %}
+</a>
+        <div class="logout-btn">
+            <a href="../logout"><button class="logout">Logout</button></a>
         </div>
-
-        <div class="imgs">
-            <img src="{% static 'images/home3.jpeg' %}" alt="">
-        </div>
-
-        <div class="imgs">
-            <img src="{% static 'images/home4.jpeg' %}" alt="">
-        </div>
-
-        <div class="imgs">
-            <img src="{% static 'images/home5.jpeg' %}" alt="">
-        </div>
-
     </div>
 
+    <!-- Hero Slider Section -->
+    <div class="slider-container">
+        <div class="home-images">
+            <div class="imgs">
+                <img src="{% static 'images/home1.jpeg' %}" alt="Featured Jersey">
+            </div>
+            <div class="imgs">
+                <img src="{% static 'images/home2.jpeg' %}" alt="Featured Jersey">
+            </div>
+            <div class="imgs">
+                <img src="{% static 'images/home3.jpeg' %}" alt="Featured Jersey">
+            </div>
+            <div class="imgs">
+                <img src="{% static 'images/home4.jpeg' %}" alt="Featured Jersey">
+            </div>
+            <div class="imgs">
+                <img src="{% static 'images/home5.jpeg' %}" alt="Featured Jersey">
+            </div>
+        </div>
+        <div class="slider-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </div>
+
+    <!-- New Arrivals Section -->
+    <a href=""><h3 id="new">New Arrivals</h3></a>
+    <div class="jersey-container">
+        {% for jersey in new_arrivals %}
+            <div class="jersey-card">
+                <a href="{% url 'add_to_wishlist' jersey.id %}" class="wishlist-btn">
+                    {% if jersey.id in wishlist_products %}
+                        <span class="heart selected">♡</span>
+                    {% else %}
+                        <span class="heart">♡</span>
+                    {% endif %}
+                </a>
+                
+                <a href="{% url 'jersey_detail' jersey.id %}">
+                    <img src="{{ jersey.image.url }}" class="jersey-img" alt="{{ jersey.team }}">
+                </a>
+
+                <div class="jersey-info">
+                    <h3>{{ jersey.team }}</h3>
+                    <p class="price">₹ {{ jersey.price }}</p>
+
+                    {% if jersey.total_stock == 0 %}
+                        <span class="soldout">Sold Out</span>
+                    {% elif jersey.total_stock <= 5 %}
+                        <span class="lowstock">Only {{ jersey.total_stock }} left</span>
+                    {% endif %}
+
+                    {% if jersey.total_stock > 0 %}
+                        <a href="{% url 'add_to_cart' jersey.id %}">
+                            <button class="cart-btn">Add to Cart</button>
+                        </a>
+                    {% else %}
+                        <button class="cart-btn disabled">Add to Cart</button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- World Cup Kits Section -->
+    <a href="../worldcup"><h3 id="world">World Cup Kits</h3></a>
     
+    <div class="jersey-container">
+        {% for jersey in worldcup_jerseys %}
+            <div class="jersey-card">
+                <a href="{% url 'add_to_wishlist' jersey.id %}" class="wishlist-btn">
+                    {% if jersey.id in wishlist_products %}
+                        <span class="heart selected">♡</span>
+                    {% else %}
+                        <span class="heart">♡</span>
+                    {% endif %}
+                </a>
+                <a href="{% url 'jersey_detail' jersey.id %}">
+                    <img src="{{ jersey.image.url }}" class="jersey-img" alt="{{ jersey.team }}">
+                </a>
 
-</div>
-<a href=""><h3 id="new">New Arrivals</h3></a>
-      <div class="jersey-container">
-        
-{% for jersey in new_arrivals %}
-  
-<div class="jersey-card">
-   <a href="{% url 'add_to_wishlist' jersey.id %}" class="wishlist-btn">
-        {% if jersey.id in wishlist_products %}
-        <span class="heart selected">♡</span>
-    {% else %}
-        <span class="heart">♡</span>
-    {% endif %}
-    </a>
-    <a href="{% url 'jersey_detail' jersey.id %}">
-        <img src="{{ jersey.image.url }}" class="jersey-img">
-         
-    </a>
+                <div class="jersey-info">
+                    <h3>{{ jersey.team }}</h3>
+                    <p class="price">₹ {{ jersey.price }}</p>
+                    
+                    {% if jersey.total_stock == 0 %}
+                        <span class="soldout">Sold Out</span>
+                    {% elif jersey.total_stock <= 5 %}
+                        <span class="lowstock">Only {{ jersey.total_stock }} left</span>
+                    {% endif %}
 
-    <div class="jersey-info">
-    <h3>{{ jersey.team }}</h3>
-    <p class="price">₹ {{ jersey.price }}</p>
+                    {% if jersey.total_stock > 0 %}
+                        <a href="{% url 'add_to_cart' jersey.id %}">
+                            <button class="cart-btn">Add to Cart</button>
+                        </a>
+                    {% else %}
+                        <button class="cart-btn disabled">Add to Cart</button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
-    {% if jersey.total_stock == 0 %}
-    <span class="soldout">Sold Out</span>
-
-    {% elif jersey.total_stock <= 5 %}
-    <span class="lowstock">Only {{ jersey.total_stock }} left</span>
-    {% endif %}
-
-    {% if jersey.total_stock > 0 %}
-    <a href="{% url 'add_to_cart' jersey.id %}">
-        <button class="cart-btn">Add to Cart</button>
-    </a>
-    {% else %}
-        <button class="cart-btn disabled">Add to Cart</button>
-    {% endif %}
-
-</div>
-</div>
-{% endfor %}
-</div>
-<a href="../worldcup"><h3 id="world">World Cup Kits</h3></a>
-<div class="jersey-container">
-{% for jersey in worldcup_jerseys %}
-<div class="jersey-card">
-<a href="" class="wishlist-btn">
-        {% if jersey.id in wishlist_products %}
-        <span class="heart selected">♡</span>
-    {% else %}
-        <span class="heart">♡</span>
-    {% endif %}
-    </a>
-    <a href="{% url 'jersey_detail' jersey.id %}">
-        <img src="{{ jersey.image.url }}" class="jersey-img">
+    <!-- World Cup Featured Image -->
+    <a href="../worldcup">
+        <div class="world-img">
+            <img src="{% static 'images/brazil.jpg' %}" alt="Brazil Jersey">
+        </div>
     </a>
 
-    <div class="jersey-info">
-        <h3>{{ jersey.team }}</h3>
-        <p class="price">₹ {{ jersey.price }}</p>
-          {% if jersey.total_stock == 0 %}
-    <span class="soldout">Sold Out</span>
+    <!-- Club Kits Section -->
+    <a href="../club"><h3 id="world">Club Kits</h3></a>
 
-    {% elif jersey.total_stock <= 5 %}
-    <span class="lowstock">Only {{ jersey.total_stock }} left</span>
-    {% endif %}
+    <div class="jersey-container">
+        {% for jersey in club_jerseys %}
+            <div class="jersey-card">
+                 <a href="{% url 'add_to_wishlist' jersey.id %}" class="wishlist-btn">
+                    {% if jersey.id in wishlist_products %}
+                        <span class="heart selected">♡</span>
+                    {% else %}
+                        <span class="heart">♡</span>
+                    {% endif %}
+                </a>
+                
+                <a href="{% url 'jersey_detail' jersey.id %}">
+                    <img src="{{ jersey.image.url }}" class="jersey-img" alt="{{ jersey.team }}">
+                </a>
 
-    {% if jersey.total_stock > 0 %}
-    <a href="{% url 'add_to_cart' jersey.id %}">
-        <button class="cart-btn">Add to Cart</button>
+                <div class="jersey-info">
+                    <h3>{{ jersey.team }}</h3>
+                    <p class="price">₹ {{ jersey.price }}</p>
+                    
+                    {% if jersey.total_stock == 0 %}
+                        <span class="soldout">Sold Out</span>
+                    {% elif jersey.total_stock <= 5 %}
+                        <span class="lowstock">Only {{ jersey.total_stock }} left</span>
+                    {% endif %}
+
+                    {% if jersey.total_stock > 0 %}
+                        <a href="{% url 'add_to_cart' jersey.id %}">
+                            <button class="cart-btn">Add to Cart</button>
+                        </a>
+                    {% else %}
+                        <button class="cart-btn disabled">Add to Cart</button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Club Featured Image -->
+    <a href="../club">
+        <div class="club-img">
+            <img src="{% static 'images/barcelona.jpg' %}" alt="Barcelona Jersey">
+        </div>
     </a>
-    {% else %}
-        <button class="cart-btn disabled">Add to Cart</button>
-    {% endif %}
 
-</div>
-</div>
-{% endfor %}
-</div>
-<a href="../worldcup">
-<div class="world-img">
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>JerseyHub</h4>
+        <img class="logo" src="{%  static  'images/logo og.png'  %}" alt="JerseyHub Logo">
 
-<img src="{% static 'images/brazil.jpg' %}" alt="Brazil Jersey">
-</div>
-</a>
-<a href="../club"><h3 id="world">Club  Kits</h3></a>
+                <p>Your premier destination for authentic football jerseys.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="../home">Home</a></li>
+                    <li><a href="../products">All Products</a></li>
+                    <li><a href="{% url 'worldcup' %}">World Cup</a></li>
+                    <li><a href="{% url 'club' %}">Club Jerseys</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li>Email: support@jerseyhub.com</li>
+                    <li>Phone: +91 123 456 7890</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 JerseyHub. All rights reserved.</p>
+        </div>
+    </footer>
 
-<div class="jersey-container">
+    <script>
+        // Slider functionality
+        let slider = document.querySelector(".home-images");
+        let slides = document.querySelectorAll(".imgs");
+        let dots = document.querySelectorAll(".dot");
+        let index = 0;
 
-{% for jersey in club_jerseys %}
+        function showSlide(n) {
+            index = n;
+            slider.style.transform = `translateX(-${index * 100}%)`;
+            
+            // Update dots
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
 
-<div class="jersey-card">
-<a href="../add_to_wishlist" class="wishlist-btn">
-        {% if jersey.id in wishlist_products %}
-        <span class="heart selected">♡</span>
-    {% else %}
-        <span class="heart">♡</span>
-    {% endif %}
-    </a>
-<a href="{% url 'jersey_detail' jersey.id %}">
-<img src="{{ jersey.image.url }}" class="jersey-img">
-</a>
+        function nextSlide() {
+            index++;
+            if (index >= slides.length) {
+                index = 0;
+            }
+            showSlide(index);
+        }
 
-<h3>{{ jersey.team }}</h3>
+        // Auto advance slides every 3 seconds
+        setInterval(nextSlide, 3000);
 
-<p>₹ {{ jersey.price }}</p>
-  {% if jersey.total_stock == 0 %}
-    <span class="soldout">Sold Out</span>
+        // Click on dots to navigate
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', function() {
+                showSlide(i);
+            });
+        });
 
-    {% elif jersey.total_stock <= 5 %}
-    <span class="lowstock">Only {{ jersey.total_stock }} left</span>
-    {% endif %}
-
-    {% if jersey.total_stock > 0 %}
-    <a href="{% url 'add_to_cart' jersey.id %}">
-        <button class="cart-btn">Add to Cart</button>
-    </a>
-    {% else %}
-        <button class="cart-btn disabled">Add to Cart</button>
-    {% endif %}
-
-</div>
-
-{% endfor %}
-</div>
-<a href="../club">
-<div class="club-img">
-
-<img src="{% static 'images/barcelona.jpg' %}" alt="Brazil Jersey">
-
-</div>
-</a>
+        // Heart click animation
+        document.querySelectorAll('.wishlist-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                let heart = this.querySelector('.heart');
+                heart.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    heart.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+    </script>
 </body>
-<script>
-
-let slider = document.querySelector(".home-images");
-let slides = document.querySelectorAll(".imgs");
-
-let index = 0;
-
-function showSlide(){
-    slider.style.transform = `translateX(-${index * 100}%)`;
-}
-
-
-
-setInterval(() => {
-
-    index++;
-
-    if(index >= slides.length){
-        index = 0;
-    }
-
-    showSlide();
-
-}, 3000);
-
-</script>
 </html>

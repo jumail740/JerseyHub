@@ -31,26 +31,27 @@
     </a>
 
     <div class="jersey-info">
-        <h3>{{ jersey.team }}</h3>
-        <p class="price">₹ {{ jersey.price }}</p>
-         {% if jersey.stock == 0 %}
-  <span class="soldout">Sold Out</span>
+    <h3>{{ jersey.team }}</h3>
+    <p class="price">₹ {{ jersey.price }}</p>
 
-  {% elif jersey.stock <= 5  %}
-  <span class="lowstock">Only {{ jersey.stock }} left </span> 
-  {% endif %}
-        {% if jersey.stock > 0 %}
-         <a href="{% url 'add_to_cart' jersey.id %}">
-<button class="cart-btn">Add to Cart</button>
-</a>
-  {% else %}
-  <button class="cart-btn disabled">Add to Cart</button>
-  {% endif %}
-    </div>
+    {% if jersey.total_stock == 0 %}
+        <span class="soldout">Sold Out</span>
 
+    {% elif jersey.total_stock <= 5 %}
+        <span class="lowstock">Only {{ jersey.total_stock }} left</span>
+    {% endif %}
+
+    {% if jersey.total_stock > 0 %}
+        <a href="{% url 'add_to_cart' jersey.id %}">
+            <button class="cart-btn">Add to Cart</button>
+        </a>
+    {% else %}
+        <button class="cart-btn disabled">Add to Cart</button>
+    {% endif %}
+    
 </div>
-{% endfor %}
-        </div>
+
     </div>
+    {% endfor %}
 </body>
 </html>

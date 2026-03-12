@@ -69,6 +69,7 @@ def home(request):
         user=request.user
     ).values_list('jersey_id',flat=True)
     wishlist_count = Wishlist.objects.filter(user=request.user).count()
+    cart_count = Cart.objects.filter(user=request.user).count()
     for jersey in new_arrivals:
         jersey.total_stock = sum(size.stock for size in jersey.sizes.all())
 
@@ -84,6 +85,7 @@ def home(request):
         "club_jerseys":club_jerseys,
         "whislist_jerseys":whislist_jerseys,
         'wishlist_count':wishlist_count,
+        "cart_count": cart_count
     }
     return render(request,'homepage.html',context)
 
@@ -105,12 +107,15 @@ def jersey_detail(request, id):
     for s in size_list:
         obj = jersey.sizes.filter(size=s).first()
         sizes[s] = obj.stock if obj else 0
+    
+    total_stock=sum(sizes.values())
 
     context = {
         'jersey': jersey,
         'wishlist_jerseys': wishlist_jerseys,
         'wishlist_count': wishlist_count,
-        'sizes': sizes
+        'sizes': sizes,
+        'total_stock': total_stock
     }
 
     return render(request, 'jersey_detail.html', context)
@@ -128,6 +133,9 @@ def products(request):
             Q(players__icontains=search)|
             Q(category__icontains=search)
         )
+    
+    for j in jersey:
+        j.total_stock = sum(size.stock for size in j.sizes.all())
 
     whislist_jerseys= Wishlist.objects.filter(
         user=request.user
@@ -148,6 +156,8 @@ def club_jerseys(request):
         user=request.user
     ).values_list('jersey_id',flat=True)
     wishlist_count= Wishlist.objects.filter(user=request.user).count()
+    for j in jerseys:
+        j.total_stock = sum(size.stock for size in j.sizes.all())
     context = {
         'jerseys': jerseys,
         'whislist_jerseys': whislist_jerseys,
@@ -164,6 +174,8 @@ def worldcup_jerseys(request):
         user=request.user
     ).values_list('jersey_id',flat=True)
     wishlist_count= Wishlist.objects.filter(user=request.user).count()
+    for j in jerseys:
+        j.total_stock = sum(size.stock for size in j.sizes.all())
     context = {
         'jerseys': jerseys,
         'whislist_jerseys': whislist_jerseys,
@@ -184,8 +196,13 @@ def add_to_wishlist(req,jersey_id):
 
 
 def wishlist_page(req):
-    wishlist_items =Wishlist.objects.filter(user=req.user)
-    return render(req,'wishlist.html',{'wishlist_items':wishlist_items})
+
+    wishlist_items = Wishlist.objects.filter(user=req.user)
+
+    for j in wishlist_items:
+        j.jersey.total_stock = sum(size.stock for size in j.jersey.sizes.all())
+
+    return render(req, 'wishlist.html', {'wishlist_items': wishlist_items})
 
 @login_required
 def remove_from_wishlist(request, jersey_id):
@@ -213,7 +230,7 @@ def add_to_cart(request, jersey_id):
         cart_item.quantity += 1
         cart_item.save()
 
-    return redirect('cart_page')
+    return redirect('home')
 
 
 

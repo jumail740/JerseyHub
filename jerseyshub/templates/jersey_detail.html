@@ -125,14 +125,24 @@ class="size-btn {% if stock == 0 %}out-stock{% endif %}"
 
 </div>
 <div class="buttons">
+<div class="buttons">
+
+{% if total_stock > 0 %}
 
 <a href="{% url 'add_to_cart' jersey.id %}" class="cart-btn">
 Add to Cart
 </a>
 
-<a href="" class="buy-btn">
+<a href="{" class="buy-btn">
 Buy Now
 </a>
+
+{% else %}
+
+<button class="cart-btn disabled">Add to Cart</button>
+<button class="buy-btn disabled">Buy Now</button>
+
+{% endif %}
 
 </div>
 

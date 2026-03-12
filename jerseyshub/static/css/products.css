@@ -134,3 +134,9 @@ background:#c1121f;
     display: flex;
     justify-content: flex-start;
 }
+.disabled{
+background:#ccc;
+color:#666;
+cursor:not-allowed;
+pointer-events:none;
+}

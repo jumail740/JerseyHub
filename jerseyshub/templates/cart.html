@@ -67,6 +67,16 @@
 
 <p class="price">Price: ₹ {{ item.jersey.price }}</p>
 
+<p class="size">Size: {{ item.size }}</p>
+
+{% if item.player_name %}
+<p class="custom">Name: {{ item.player_name }}</p>
+{% endif %}
+
+{% if item.player_number %}
+<p class="custom">Number: {{ item.player_number }}</p>
+{% endif %}
+
 </div>
 
 

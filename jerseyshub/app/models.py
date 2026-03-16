@@ -51,7 +51,9 @@ class Cart(models.Model):
     user= models.ForeignKey(User,on_delete=models.CASCADE)
     jersey=models.ForeignKey(Jersey,on_delete=models.CASCADE)
     quantity=models.IntegerField(default=1)
-    
+    size =models.CharField(max_length=5)
+    player_name = models.CharField(max_length=100, blank=True, null=True)
+    player_number = models.IntegerField(blank=True, null=True)
     def total_price(self):
         return self.jersey.price * self.quantity
     

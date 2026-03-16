@@ -121,33 +121,39 @@
         {{ jersey.description }}
         
         </p>
-           {% if jersey.stock == 0 %}
-  <span class="soldout">Sold Out</span>
+          <form method="POST" action="{% url 'add_to_cart' jersey.id %}">
+{% csrf_token %}
 
-  {% elif jersey.stock <= 5  %}
-  <span class="lowstock">Only {{ jersey.stock }} left </span> 
-  {% endif %}
-  
-    <a href="#" class="customize-toggle" onclick="toggleCustomize()">Customize Jersey</a>
+{% if jersey.stock == 0 %}
+<span class="soldout">Sold Out</span>
+
+{% elif jersey.stock <= 5 %}
+<span class="lowstock">Only {{ jersey.stock }} left</span>
+{% endif %}
+
+<a href="#" class="customize-toggle" onclick="toggleCustomize()">Customize Jersey</a>
 
 <div class="customize" id="customizeBox">
 
 <label>Player Name</label>
-<input type="text" placeholder="Enter Name">
+<input type="text" name="player_name" placeholder="Enter Name">
 
 <label>Number</label>
-<input type="number" min="0" max="99" placeholder="10">
+<input type="number" name="player_number" min="0" max="99" placeholder="10">
 
 </div>
-       <div class="sizes">
 
 <h4>Select Size</h4>
+
+<input type="hidden" name="size" id="selectedSize">
 
 <div class="size-buttons">
 
 {% for size, stock in sizes.items %}
 
 <button 
+type="button"
+onclick="selectSize('{{ size }}')"
 class="size-btn {% if stock == 0 %}out-stock{% endif %}"
 {% if stock == 0 %}disabled{% endif %}>
 
@@ -158,28 +164,27 @@ class="size-btn {% if stock == 0 %}out-stock{% endif %}"
 {% endfor %}
 
 </div>
-<div class="buttons">
+
 <div class="buttons">
 
 {% if total_stock > 0 %}
 
-<a href="{% url 'add_to_cart' jersey.id %}" class="cart-btn">
+<button type="submit" class="cart-btn">
 Add to Cart
-</a>
+</button>
 
-<a href="{" class="buy-btn">
-Buy Now
-</a>
+
 
 {% else %}
 
 <button class="cart-btn disabled">Add to Cart</button>
-<button class="buy-btn disabled">Buy Now</button>
+
 
 {% endif %}
 
 </div>
 
+</form>
     </div>
 
 </div>
@@ -202,6 +207,7 @@ b.classList.remove("active");
 });
 
 this.classList.add("active");
+document.getElementById("selectedSize").value = this.innerText;
 
 });
 
@@ -215,4 +221,14 @@ if(box.style.display === "flex"){
     box.style.display = "flex";
 }
 }
+document.querySelector("form").addEventListener("submit", function(e){
+
+let size = document.getElementById("selectedSize").value;
+
+if(size === ""){
+alert("Please select a size");
+e.preventDefault();
+}
+
+});
 </script>

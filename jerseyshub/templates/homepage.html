@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static  %}
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JerseyHub - Premium Football Jerseys</title>
-    <link rel="stylesheet" href="{% static   'css/home.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="nav">
-        <img class="logo" src="{%  static  'images/logo og.png'  %}" alt="JerseyHub Logo">
+        <img class="logo" src="{% static 'images/logo og.png' %}" alt="JerseyHub Logo">
         
         <div class="nav-links">
             <a href="../home">Home</a>
@@ -24,25 +24,24 @@
         </form>
         
         <a href="{% url 'wishlist_page' %}" class="wishlist-icon">
-            <img class="love" src="{% static 'images/love.png' %}" alt="">
+            <img class="love" src="{% static 'images/love.png' %}" alt="Wishlist">
             {% if wishlist_count > 0 %}
                 <span class="wishlist-count">{{ wishlist_count }}</span>
             {% endif %}
         </a>
         
-       <a href="{% url 'cart_page' %}" class="cart-icon">
-    <img class="cart" src="{% static 'images/shopping-cart.png' %}" alt="">
-
-    {% if cart_count %}
-    <span class="cart-count">{{ cart_count }}</span>
-    {% endif %}
-</a>
+        <a href="{% url 'cart_page' %}" class="cart-icon">
+            <img class="cart" src="{% static 'images/shopping-cart.png' %}" alt="Cart">
+            {% if cart_count %}
+                <span class="cart-count">{{ cart_count }}</span>
+            {% endif %}
+        </a>
+        
         <div class="logout-btn">
             <a href="../logout"><button class="logout">Logout</button></a>
         </div>
     </div>
 
-    <!-- Hero Slider Section -->
     <div class="slider-container">
         <div class="home-images">
             <div class="imgs">
@@ -70,14 +69,14 @@
         </div>
     </div>
 
-    <!-- New Arrivals Section -->
+    
     <a href=""><h3 id="new">New Arrivals</h3></a>
     <div class="jersey-container">
         {% for jersey in new_arrivals %}
             <div class="jersey-card">
                 <a href="{% url 'add_to_wishlist' jersey.id %}" class="wishlist-btn">
                     {% if jersey.id in wishlist_products %}
-                        <span class="heart selected">♡</span>
+                        <span class="heart selected">♥</span>
                     {% else %}
                         <span class="heart">♡</span>
                     {% endif %}
@@ -97,19 +96,14 @@
                         <span class="lowstock">Only {{ jersey.total_stock }} left</span>
                     {% endif %}
 
-                    {% if jersey.total_stock > 0 %}
-                        <a href="{% url 'add_to_cart' jersey.id %}">
-                            <button class="cart-btn">Add to Cart</button>
-                        </a>
-                    {% else %}
-                        <button class="cart-btn disabled">Add to Cart</button>
-                    {% endif %}
+                    <a href="{% url 'jersey_detail' jersey.id %}">
+                        <button class="cart-btn">View Product</button>
+                    </a>
                 </div>
             </div>
         {% endfor %}
     </div>
 
-    <!-- World Cup Kits Section -->
     <a href="../worldcup"><h3 id="world">World Cup Kits</h3></a>
     
     <div class="jersey-container">
@@ -117,7 +111,7 @@
             <div class="jersey-card">
                 <a href="{% url 'add_to_wishlist' jersey.id %}" class="wishlist-btn">
                     {% if jersey.id in wishlist_products %}
-                        <span class="heart selected">♡</span>
+                        <span class="heart selected">♥</span>
                     {% else %}
                         <span class="heart">♡</span>
                     {% endif %}
@@ -136,13 +130,9 @@
                         <span class="lowstock">Only {{ jersey.total_stock }} left</span>
                     {% endif %}
 
-                    {% if jersey.total_stock > 0 %}
-                        <a href="{% url 'add_to_cart' jersey.id %}">
-                            <button class="cart-btn">Add to Cart</button>
-                        </a>
-                    {% else %}
-                        <button class="cart-btn disabled">Add to Cart</button>
-                    {% endif %}
+                    <a href="{% url 'jersey_detail' jersey.id %}">
+                        <button class="cart-btn">View Product</button>
+                    </a>
                 </div>
             </div>
         {% endfor %}
@@ -161,9 +151,9 @@
     <div class="jersey-container">
         {% for jersey in club_jerseys %}
             <div class="jersey-card">
-                 <a href="{% url 'add_to_wishlist' jersey.id %}" class="wishlist-btn">
+                <a href="{% url 'add_to_wishlist' jersey.id %}" class="wishlist-btn">
                     {% if jersey.id in wishlist_products %}
-                        <span class="heart selected">♡</span>
+                        <span class="heart selected">♥</span>
                     {% else %}
                         <span class="heart">♡</span>
                     {% endif %}
@@ -183,13 +173,9 @@
                         <span class="lowstock">Only {{ jersey.total_stock }} left</span>
                     {% endif %}
 
-                    {% if jersey.total_stock > 0 %}
-                        <a href="{% url 'add_to_cart' jersey.id %}">
-                            <button class="cart-btn">Add to Cart</button>
-                        </a>
-                    {% else %}
-                        <button class="cart-btn disabled">Add to Cart</button>
-                    {% endif %}
+                    <a href="{% url 'jersey_detail' jersey.id %}">
+                        <button class="cart-btn">View Product</button>
+                    </a>
                 </div>
             </div>
         {% endfor %}
@@ -201,13 +187,15 @@
             <img src="{% static 'images/barcelona.jpg' %}" alt="Barcelona Jersey">
         </div>
     </a>
+  
+
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
                 <h4>JerseyHub</h4>
-        <img class="logo" src="{%  static  'images/logo og.png'  %}" alt="JerseyHub Logo">
+                       <img class="logo" src="{% static 'images/logo og.png' %}" alt="JerseyHub Logo">
 
                 <p>Your premier destination for authentic football jerseys.</p>
             </div>
@@ -235,53 +223,108 @@
 
     <script>
         // Slider functionality
-        let slider = document.querySelector(".home-images");
-        let slides = document.querySelectorAll(".imgs");
-        let dots = document.querySelectorAll(".dot");
-        let index = 0;
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.querySelector(".home-images");
+            const slides = document.querySelectorAll(".imgs");
+            const dots = document.querySelectorAll(".dot");
+            let index = 0;
+            let slideInterval;
 
-        function showSlide(n) {
-            index = n;
-            slider.style.transform = `translateX(-${index * 100}%)`;
-            
-            // Update dots
-            dots.forEach((dot, i) => {
-                if (i === index) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
+            function showSlide(n) {
+                index = n;
+                if (slider) {
+                    slider.style.transform = `translateX(-${index * 100}%)`;
                 }
-            });
-        }
-
-        function nextSlide() {
-            index++;
-            if (index >= slides.length) {
-                index = 0;
+                
+                // Update dots
+                dots.forEach((dot, i) => {
+                    if (i === index) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
             }
-            showSlide(index);
-        }
 
-        // Auto advance slides every 3 seconds
-        setInterval(nextSlide, 3000);
+            function nextSlide() {
+                index++;
+                if (index >= slides.length) {
+                    index = 0;
+                }
+                showSlide(index);
+            }
 
-        // Click on dots to navigate
-        dots.forEach((dot, i) => {
-            dot.addEventListener('click', function() {
-                showSlide(i);
+            // Auto advance slides every 3 seconds
+            if (slides.length > 0) {
+                slideInterval = setInterval(nextSlide, 3000);
+            }
+
+            // Click on dots to navigate
+            dots.forEach((dot, i) => {
+                dot.addEventListener('click', function() {
+                    clearInterval(slideInterval);
+                    showSlide(i);
+                    slideInterval = setInterval(nextSlide, 3000);
+                });
             });
-        });
 
-        // Heart click animation
-        document.querySelectorAll('.wishlist-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                let heart = this.querySelector('.heart');
-                heart.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    heart.style.transform = 'scale(1)';
-                }, 200);
+            // Heart click animation
+            document.querySelectorAll('.wishlist-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const heart = this.querySelector('.heart');
+                    heart.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        heart.style.transform = 'scale(1)';
+                    }, 200);
+                    
+                    // Allow the link to work after animation
+                    setTimeout(() => {
+                        window.location.href = this.href;
+                    }, 250);
+                });
             });
+
+            // Search box animation
+            const searchBox = document.querySelector('.search-box');
+            if (searchBox) {
+                searchBox.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                searchBox.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            }
         });
+       
+
+    function toggleChat(){
+    let chatBox = document.getElementById("chatBox");
+
+    if(chatBox.style.display === "none" || chatBox.style.display === ""){
+        chatBox.style.display = "flex";
+    }else{
+        chatBox.style.display = "none";
+    }
+}
+
+
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69b78fdaa7d28a1c389b14a3/1jjqgjrr8';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+
+   
+  
+
     </script>
 </body>
 </html>
+
+

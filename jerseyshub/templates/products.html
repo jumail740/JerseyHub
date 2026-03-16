@@ -32,20 +32,18 @@
         </a>
         
        <a href="{% url 'cart_page' %}" class="cart-icon">
-    <img class="cart" src="{% static 'images/shopping-cart.png' %}" alt="">
+            <img class="cart" src="{% static 'images/shopping-cart.png' %}" alt="Cart">
+            {% if cart_count %}
+                <span class="cart-count">{{ cart_count }}</span>
+            {% endif %}
+        </a>
 
-    {% if cart_count %}
-    <span class="cart-count">{{ cart_count }}</span>
-    {% endif %}
-</a>
+
         <div class="logout-btn">
             <a href="../logout"><button class="logout">Logout</button></a>
         </div>
     </div>
 
-
-
-       
     <h2>Products</h2>
 
 </div>
@@ -75,13 +73,9 @@
         <span class="lowstock">Only {{ jersey.total_stock }} left</span>
     {% endif %}
 
-    {% if jersey.total_stock > 0 %}
-        <a href="{% url 'add_to_cart' jersey.id %}">
-            <button class="cart-btn">Add to Cart</button>
-        </a>
-    {% else %}
-        <button class="cart-btn disabled">Add to Cart</button>
-    {% endif %}
+    <a href="{% url 'jersey_detail' jersey.id %}">
+                        <button class="cart-btn">View Product</button>
+                    </a>
     
 </div>
 

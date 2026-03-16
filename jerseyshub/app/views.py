@@ -7,7 +7,6 @@ from .models import Profile
 from .models import Jersey,Wishlist,Cart
 from django.db.models import Q
 
-
 # Create your views here.
 
 def register(request):
@@ -220,10 +219,19 @@ def remove_from_wishlist(request, jersey_id):
 def add_to_cart(request, jersey_id):
 
     jersey = get_object_or_404(Jersey, id=jersey_id)
+    size = request.POST.get("size")
+    player_name = request.POST.get("player_name")
+    player_number = request.POST.get("player_number")
+    
+    if player_number == "":
+       player_number = None
 
     cart_item, created = Cart.objects.get_or_create(
         user=request.user,
-        jersey=jersey
+        jersey=jersey,
+         size=size,
+        player_name=player_name,
+        player_number=player_number,
     )
 
     if not created:
@@ -267,3 +275,4 @@ def dec_quantity(req,cart_id):
        cart_item.quantity -=1
        cart_item.save()
     return redirect('cart_page')
+

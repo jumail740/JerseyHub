@@ -14,8 +14,8 @@
         </a>
         
         <div class="nav-links">
-            <a href="{% url 'home' %}"">Home</a>
-            <a href="../products">All Products</a>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'products' %}">All Products</a>
             <a href="{% url 'worldcup' %}">World Cup Jerseys</a>
             <a href="{% url 'club' %}">Club Jerseys</a>
         </div>
@@ -26,27 +26,21 @@
         
         <a href="{% url 'wishlist_page' %}" class="wishlist-icon">
             <img class="love" src="{% static 'images/love.png' %}" alt="">
-            {% if wishlist_count > 0 %}
-                <span class="wishlist-count">{{ wishlist_count }}</span>
-            {% endif %}
+           
         </a>
         
        <a href="{% url 'cart_page' %}" class="cart-icon">
     <img class="cart" src="{% static 'images/shopping-cart.png' %}" alt="">
 
-    {% if cart_count %}
-    <span class="cart-count">{{ cart_count }}</span>
-    {% endif %}
+    
 </a>
         <div class="logout-btn">
             <a href="../logout"><button class="logout">Logout</button></a>
         </div>
     </div>
-
-
-
-        
-</div>
+    <div class="back">
+<a  href="{% url 'home' %}" class="back-btn"><----Go Back</a>
+    </div>
    <div class="product-container">
 
     <div class="product-image">
@@ -121,7 +115,7 @@
         {{ jersey.description }}
         
         </p>
-          <form method="POST" action="{% url 'add_to_cart' jersey.id %}">
+          <form id="cartForm" method="POST" action="{% url 'add_to_cart' jersey.id %}">
 {% csrf_token %}
 
 {% if jersey.stock == 0 %}
@@ -164,27 +158,24 @@ class="size-btn {% if stock == 0 %}out-stock{% endif %}"
 {% endfor %}
 
 </div>
-
 <div class="buttons">
-
-{% if total_stock > 0 %}
-
-<button type="submit" class="cart-btn">
-Add to Cart
-</button>
-
-
-
-{% else %}
-
-<button class="cart-btn disabled">Add to Cart</button>
-
-
-{% endif %}
-
+    {% if total_stock > 0 %}
+        <button type="submit" id="cartBtn" class="cart-btn">
+            Add to Cart
+        </button>
+    {% else %}
+        <button class="cart-btn disabled">Add to Cart</button>
+    {% endif %}
 </div>
 
+
+<p id="sizeError" style="color:red; display:none; font-size:14px;">
+    👉 Please select a size
+</p>
 </form>
+</div>
+
+
     </div>
 
 </div>
@@ -193,42 +184,143 @@ Add to Cart
 </body>
 </html>
 <script>
-function changeImage(element){
-    document.getElementById("mainImage").src = element.src;
-}
-let sizes = document.querySelectorAll(".size-btn");
+document.addEventListener("DOMContentLoaded", function(){
+
+    function changeImage(element){
+        document.getElementById("mainImage").src = element.src;
+    }
+
+    document.getElementById("cartForm").addEventListener("submit", function(e){
+
+        let size = document.getElementById("selectedSize").value;
+        let errorMsg = document.getElementById("sizeError");
+
+        if(size === ""){
+            e.preventDefault();  
+            errorMsg.style.display = "block"; 
+        } else {
+            errorMsg.style.display = "none"; 
+        }
+    });
+
+   let sizes = document.querySelectorAll(".size-btn");
 
 sizes.forEach(function(btn){
+    btn.addEventListener("click", function(){
 
-btn.addEventListener("click", function(){
+        let selectedSizeInput = document.getElementById("selectedSize");
 
-sizes.forEach(function(b){
-b.classList.remove("active");
+        // 👉 If same button clicked again → unselect
+        if(this.classList.contains("active")){
+            this.classList.remove("active");
+            selectedSizeInput.value = "";   // remove size
+        } else {
+
+            // remove active from all
+            sizes.forEach(function(b){
+                b.classList.remove("active");
+            });
+
+            // set new active
+            this.classList.add("active");
+            selectedSizeInput.value = this.innerText;
+        }
+
+        // remove error message
+        document.getElementById("sizeError").style.display = "none";
+        document.querySelector(".size-buttons").classList.remove("size-error");
+    });
 });
 
-this.classList.add("active");
-document.getElementById("selectedSize").value = this.innerText;
+    window.toggleCustomize = function(){
+        let box = document.getElementById("customizeBox");
 
-});
-
-});
-function toggleCustomize(){
-let box = document.getElementById("customizeBox");
-
-if(box.style.display === "flex"){
-    box.style.display = "none";
-}else{
-    box.style.display = "flex";
-}
-}
-document.querySelector("form").addEventListener("submit", function(e){
-
-let size = document.getElementById("selectedSize").value;
-
-if(size === ""){
-alert("Please select a size");
-e.preventDefault();
-}
+        if(box.style.display === "flex"){
+            box.style.display = "none";
+        } else {
+            box.style.display = "flex";
+        }
+    };
 
 });
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+    // 🔹 Change main image
+    window.changeImage = function(element){
+        document.getElementById("mainImage").src = element.src;
+    }
+
+    // 🔹 Toggle customize box
+    window.toggleCustomize = function(){
+        let box = document.getElementById("customizeBox");
+
+        if(box.style.display === "flex"){
+            box.style.display = "none";
+        } else {
+            box.style.display = "flex";
+        }
+    };
+
+    // 🔹 Size selection
+    let sizes = document.querySelectorAll(".size-btn");
+
+    sizes.forEach(function(btn){
+        btn.addEventListener("click", function(){
+
+            sizes.forEach(function(b){
+                b.classList.remove("active");
+            });
+
+            this.classList.add("active");
+
+            document.getElementById("selectedSize").value = this.innerText;
+
+            // ✅ remove error when size selected
+            document.getElementById("sizeError").style.display = "none";
+            document.querySelector(".size-buttons").classList.remove("size-error");
+        });
+    });
+
+    // 🔹 Form validation + animation
+    document.getElementById("cartForm").addEventListener("submit", function(e){
+
+        let size = document.getElementById("selectedSize").value;
+        let errorMsg = document.getElementById("sizeError");
+        let sizeContainer = document.querySelector(".size-buttons");
+
+        if(size === ""){
+            e.preventDefault();
+
+            // show message
+            errorMsg.style.display = "block";
+
+            // add red border + shake
+            sizeContainer.classList.add("size-error");
+
+            // remove animation so it can repeat
+            setTimeout(() => {
+                sizeContainer.classList.remove("size-error");
+            }, 300);
+
+        } else {
+            errorMsg.style.display = "none";
+        }
+    });
+
+});
+</script> -->

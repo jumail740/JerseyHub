@@ -25,17 +25,10 @@
         
         <a href="{% url 'wishlist_page' %}" class="wishlist-icon">
             <img class="love" src="{% static 'images/love.png' %}" alt="">
-            {% if wishlist_count > 0 %}
-                <span class="wishlist-count">{{ wishlist_count }}</span>
-            {% endif %}
         </a>
         
        <a href="{% url 'cart_page' %}" class="cart-icon">
     <img class="cart" src="{% static 'images/shopping-cart.png' %}" alt="">
-
-    {% if cart_count %}
-    <span class="cart-count">{{ cart_count }}</span>
-    {% endif %}
 </a>
         <div class="logout-btn">
             <a href="../logout"><button class="logout">Logout</button></a>

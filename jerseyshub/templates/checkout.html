@@ -1,0 +1,115 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+ <h2>Checkout</h2>
+
+<form method="POST">
+{% csrf_token %}
+
+<label>Address</label>
+<textarea name="address" required></textarea>
+
+<label>Phone</label>
+<input type="text" name="phone" required>
+
+<button type="submit">Place Order</button>
+
+</form>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Your Store</title>
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+</head>
+<body>
+    <div class="container">
+        
+
+            <div class="checkout-form">
+                <h2 class="section-title">Checkout Details</h2>
+                
+                <form method="POST" class="form-container">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="fullname">Full Name *</label>
+                        <input type="text" id="fullname" name="fullname" placeholder="John Doe" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+1 234 567 8900" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Delivery Address *</label>
+                        <textarea id="address" name="address" placeholder="Street, City, State, ZIP Code" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Payment Method *</label>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="card" checked>
+                                <span class="payment-label">
+                                    <span class="payment-icon">💳</span>
+                                    Credit/Debit Card
+                                </span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="Razor Pay">
+                                <span class="payment-label">
+                                    <span class="payment-icon">📱</span>
+                                   Razor Pay
+                                </span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="cod">
+                                <span class="payment-label">
+                                    <span class="payment-icon">💵</span>
+                                    Cash on Delivery
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Order Notes (Optional)</label>
+                        <textarea id="notes" name="notes" placeholder="Any special instructions..." rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></label>
+                    </div>
+
+                    <button type="submit" class="place-order-btn">
+                        <span>Place Order</span>
+                        <span class="btn-amount"> ₹{{ total_price }}</span>
+                    </button>
+
+                    <div class="secure-checkout">
+                        <span>🔒</span>
+                        <span>Secure Checkout - SSL Encrypted</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -29,29 +29,25 @@
         
         <a href="{% url 'wishlist_page' %}" class="wishlist-icon">
             <img class="love" src="{% static 'images/love.png' %}" alt="">
-            {% if wishlist_count > 0 %}
-                <span class="wishlist-count">{{ wishlist_count }}</span>
-            {% endif %}
         </a>
         
        <a href="{% url 'cart_page' %}" class="cart-icon">
     <img class="cart" src="{% static 'images/shopping-cart.png' %}" alt="">
 
-    {% if cart_count %}
-    <span class="cart-count">{{ cart_count }}</span>
-    {% endif %}
+   
 </a>
         <div class="logout-btn">
             <a href="../logout"><button class="logout">Logout</button></a>
         </div>
     </div>
 
-
+<div class="haha">
+<h2>MY CART</h2>
+<a href="{% url 'my_orders' %}" class="orders">My Ordes</a>
+</div>
 
       
-<h2>MY CART</h2>
-    </div>
-   
+
 
 <div class="full">
 
@@ -101,8 +97,14 @@ Remove
 
 {% empty %}
 
-<p>Your cart is empty</p>
 
+<div class="empty-cart">
+        <p>Your cart is empty</p>
+
+        <a href="{% url 'home' %}" class="browse-btn">
+            Browse Jerseys
+        </a>
+    </div>
 {% endfor %}
 
 </div>
@@ -111,8 +113,8 @@ Remove
 <div class="total">
 
 <h3>Total Price: ₹ {{ total }}</h3>
+<a href="{% url 'buy_now' %}" class="buy-btn">BUY NOW</a>
 
-<a href="#" class="buy-btn">BUY NOW</a>
 
 </div>
 

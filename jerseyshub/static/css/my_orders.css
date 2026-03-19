@@ -1,0 +1,236 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+.back {
+    margin: 20px;
+}
+
+.back-btn {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+/* hover effect */
+.back-btn:hover {
+    background-color: #000;
+    color: #fff;
+    transform: translateX(-5px);
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h2 {
+    color: #2d3748;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+h2:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
+
+.orders-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.order-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.order-image {
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    padding: 5px;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.order-image img {
+    border-radius: 12px;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.order-card:hover .order-image img {
+    transform: scale(1.05);
+}
+
+.order-content {
+    flex: 1;
+}
+
+.order-content h3 {
+    color: #2d3748;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.order-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.order-details p {
+    background: #f7fafc;
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: #4a5568;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.order-details p:hover {
+    background: white;
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+}
+
+.label {
+    font-weight: 600;
+    color: #718096;
+}
+
+.value {
+    font-weight: 500;
+    color: #2d3748;
+}
+
+.price {
+    color: #48bb78;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.status-badge {
+    padding: 0.3rem 1rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    display: inline-block;
+}
+
+.status-pending {
+    background: #fefcbf;
+    color: #975a16;
+    border: 1px solid #fbbf24;
+}
+
+.status-processing {
+    background: #bee3f8;
+    color: #2c5282;
+    border: 1px solid #4299e1;
+}
+
+.status-shipped {
+    background: #c6f6d5;
+    color: #276749;
+    border: 1px solid #48bb78;
+}
+
+.status-delivered {
+    background: #9ae6b4;
+    color: #22543d;
+    border: 1px solid #38a169;
+}
+
+.status-cancelled {
+    background: #fed7d7;
+    color: #9b2c2c;
+    border: 1px solid #f56565;
+}
+
+
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    h2 {
+        font-size: 2rem;
+    }
+    
+    .order-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .order-details {
+        justify-content: center;
+    }
+    
+    .order-content h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .order-details {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .order-details p {
+        width: 100%;
+        justify-content: center;
+    }
+}

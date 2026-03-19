@@ -247,7 +247,9 @@ h3#new::after, h3#world::after {
     box-shadow: 0 25px 40px -12px rgba(37, 99, 235, 0.15);
     border-color: rgba(37, 99, 235, 0.2);
 }
-
+.wishlist-btn:active{
+    background-color: red;
+}
 .wishlist-btn {
     position: absolute;
     top: 16px;

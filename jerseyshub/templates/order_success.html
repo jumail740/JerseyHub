@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static    'css/order_success.css' %}">
+</head>
+<body>
+    <h2>Order Placed Successfully 🎉</h2>
+
+<p>Thank you for shopping with JerseyHub.</p>
+
+<a href="{% url 'home' %}">
+<button>Continue Shopping</button>
+</a>
+</body>
+</html>

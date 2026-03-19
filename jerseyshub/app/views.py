@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
 from .models import Profile
-from .models import Jersey,Wishlist,Cart
+from .models import Jersey,Wishlist,Cart,Order
 from django.db.models import Q
 
 # Create your views here.
@@ -30,7 +30,7 @@ def register(request):
        )     
         Profile.objects.create(user=user,phone=phone)
         messages.error(request,'Registration Successfull')
-        return redirect(login)
+        return redirect('login')
     
     return render(request,'register.html')
 
@@ -276,3 +276,51 @@ def dec_quantity(req,cart_id):
        cart_item.save()
     return redirect('cart_page')
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Cart, Order
+
+@login_required
+def buy_now(request):
+
+    cart_items = Cart.objects.filter(user=request.user)
+    total_price = 0
+    for item in cart_items:
+        total_price += item.jersey.price * item.quantity
+
+    if request.method == "POST":
+
+        address = request.POST.get("address")
+        phone = request.POST.get("phone")
+
+        for item in cart_items:
+
+            item_total = item.jersey.price * item.quantity
+
+            Order.objects.create(
+                user=request.user,
+                jersey=item.jersey,
+                player_name=item.player_name,
+                player_number=item.player_number,
+                quantity=item.quantity,
+                total_price=item_total,
+                address=address,
+                phone=phone
+            )
+
+        cart_items.delete()
+
+        return redirect("order_success")
+
+    return render(request, "checkout.html", {"cart_items": cart_items,"total_price": total_price})
+
+def order_success(request):
+    return render(request, "order_success.html")
+
+
+@login_required
+def my_orders(request):
+
+    orders = Order.objects.filter(user=request.user).order_by("-created_at")
+
+    return render(request, "my_orders.html", {"orders": orders})

@@ -132,20 +132,7 @@ margin-bottom:10px;
 .heart.selected{
     color:red;
 }
-.back-btn{
-background:#e63946;
-color:white;
-border:none;
-padding:10px 20px;
-border-radius:6px;
-cursor:pointer;
-font-weight:bold;
-transition:0.3s;
-}
 
-.back-btn:hover{
-background:#c1121f;
-}
 
 .nav{
     display: flex;
@@ -220,14 +207,6 @@ background:#c1121f;
     box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
 }
 
-.wishlist-icon, .nav a[href="{% url 'cart_page' %}"] {
-    position: relative;
-    margin: 0 0.5rem;
-}
-.cart-icon, .nav a[href="{% url 'cart_page' %}"]{
-    position: relative;
-    margin: 0 0.5rem;
-}
 
 .love, .cart {
     width: 24px;
@@ -237,23 +216,6 @@ background:#c1121f;
 
 .love:hover, .cart:hover {
     transform: scale(1.1);
-}
-
-
-.wishlist-count {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background: #ff4444;
-    color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
 }
 
 
@@ -270,4 +232,26 @@ background:#c1121f;
 
 .logout:hover {
     background: #c82333;
+}
+.back {
+    margin: 20px;
+}
+
+.back-btn {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+/* hover effect */
+.back-btn:hover {
+    background-color: #000;
+    color: #fff;
+    transform: translateX(-5px);
 }

@@ -1,4 +1,4 @@
-
+{% comment %} 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +40,10 @@
             <a href="../logout"><button class="logout">Logout</button></a>
         </div>
     </div>
-
+      <div class="back">
+<a  href="{% url 'home' %}" class="back-btn"><----Go Back</a>
+    </div>
+  
 <div class="haha">
 <h2>MY CART</h2>
 <a href="{% url 'my_orders' %}" class="orders">My Ordes</a>
@@ -110,14 +113,187 @@ Remove
 </div>
 
 
-<div class="total">
+{% if cart_items %}
+    <div class="total">
+        <h3>Total Price: ₹ {{ total }}</h3>
+        <a href="{% url 'buy_now' %}" class="buy-btn">BUY NOW</a>
+    </div>
+{% else %}
+    <p style="text-align:center;">Add items to cart to continue</p>
+{% endif %}
 
-<h3>Total Price: ₹ {{ total }}</h3>
-<a href="{% url 'buy_now' %}" class="buy-btn">BUY NOW</a>
 
+</body>
+</html> {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Cart | JerseyHub</title>
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="nav">
+        <a href="{% url 'home' %}">
+            <img class="logo" src="{% static 'images/logo og.png' %}" alt="JerseyHub Logo">
+        </a>
+        
+        <div class="nav-links">
+            <a href="../home">Home</a>
+            <a href="../products">All Products</a>
+            <a href="{% url 'worldcup' %}">World Cup Jerseys</a>
+            <a href="{% url 'club' %}">Club Jerseys</a>
+        </div>
+        
+        <form method="GET" action="{% url 'products' %}" class="search-form">
+            <input class="search-box" type="search" name="search" placeholder="Search by players, clubs, nations...">
+            <button type="submit" class="search-btn">🔍</button>
+        </form>
+        
+        <div class="nav-actions">
+            <a href="{% url 'wishlist_page' %}" class="action-icon">
+                <img class="love" src="{% static 'images/love.png' %}" alt="Wishlist">
+                {% if wishlist_count %}
+                <span class="badge">{{ wishlist_count }}</span>
+                {% endif %}
+            </a>
+            
+            <a href="{% url 'cart_page' %}" class="action-icon active">
+                <img class="cart" src="{% static 'images/shopping-cart.png' %}" alt="Cart">
+                {% if cart_count %}
+                <span class="badge">{{ cart_count }}</span>
+                {% endif %}
+            </a>
+            
+            <div class="logout-btn">
+                <a href="../logout"><button class="logout">Sign Out</button></a>
+            </div>
+        </div>
+    </div>
 
-</div>
+    <div class="container">
+        <div class="back">
+            <a href="{% url 'home' %}" class="back-btn">← Back to Shopping</a>
+        </div>
+        
+        <div class="cart-header">
+            <h1 class="page-title">Shopping Cart</h1>
+            <a href="{% url 'my_orders' %}" class="orders-link">
+                <span>My Orders</span>
+                <span class="arrow">→</span>
+            </a>
+        </div>
 
+        {% if cart_items %}
+        <div class="cart-content">
+            <div class="cart-items">
+                {% for item in cart_items %}
+                <div class="cart-item">
+                    <div class="item-image">
+                        <img src="{{ item.jersey.image.url }}" alt="{{ item.jersey.team }}">
+                    </div>
+                    
+                    <div class="item-details">
+                        <h3 class="item-title">{{ item.jersey.team }}</h3>
+                        <div class="item-specs">
+                            <span class="spec">Size: <strong>{{ item.size }}</strong></span>
+                            {% if item.player_name %}
+                            <span class="spec">Name: <strong>{{ item.player_name }}</strong></span>
+                            {% endif %}
+                            {% if item.player_number %}
+                            <span class="spec">Number: <strong>{{ item.player_number }}</strong></span>
+                            {% endif %}
+                        </div>
+                        <div class="item-price">₹ {{ item.jersey.price }}</div>
+                    </div>
+                    
+                    <div class="item-actions">
+                        <div class="quantity-control">
+                            <a href="{% url 'decrease_quantity' item.id %}" class="qty-btn">−</a>
+                            <span class="qty-value">{{ item.quantity }}</span>
+                            <a href="{% url 'increase_quantity' item.id %}" class="qty-btn">+</a>
+                        </div>
+                        
+                        <div class="item-total">
+                            ₹ {% widthratio item.jersey.price 1 item.quantity %}
+                        </div>
+                        
+                    <a href="{% url 'remove_from_cart' item.id %}" class="remove-btn">
+    <span class="remove-icon">×</span>
+</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="cart-summary">
+                <h2 class="summary-title">Order Summary</h2>
+                
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>₹ {{ total }}</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span class="shipping-free">FREE</span>
+                </div>
+                
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span>₹ {{ total }}</span>
+                </div>
+                
+                <a href="{% url 'buy_now' %}" class="checkout-btn">
+                    Proceed to Checkout
+                    <span class="btn-arrow">→</span>
+                </a>
+                
+                <div class="payment-methods">
+                    <span>Secure payment powered by</span>
+                    <div class="payment-icons">
+                        <span>💳</span>
+                        <span>🏦</span>
+                        <span>📱</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% else %}
+        <div class="empty-cart">
+            <div class="empty-icon">🛒</div>
+            <h2>Your cart is empty</h2>
+            <p>Looks like you haven't added any jerseys to your cart yet.</p>
+            <a href="{% url 'home' %}" class="browse-btn">
+                Start Shopping
+                <span class="btn-arrow">→</span>
+            </a>
+            
+            <div class="empty-suggestions">
+                <h3>Popular Categories</h3>
+                <div class="suggestion-links">
+                    <a href="{% url 'worldcup' %}">🌍 World Cup Jerseys</a>
+                    <a href="{% url 'club' %}">⚽ Club Jerseys</a>
+                    <a href="../products">🏆 All Products</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
 
+    {% if cart_items %}
+    <div class="related-products">
+        <div class="container">
+            <h2 class="related-title">You Might Also Like</h2>
+            <div class="related-grid">
+                <!-- Add related products here if available -->
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </body>
 </html>

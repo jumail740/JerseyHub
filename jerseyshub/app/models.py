@@ -78,6 +78,7 @@ class Order(models.Model):
         ("Pending", "Pending"),
         ("Shipped", "Shipped"),
         ("Delivered", "Delivered"),
+        ('Cancelled', 'Cancelled'),
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     jersey = models.ForeignKey(Jersey, on_delete=models.CASCADE)

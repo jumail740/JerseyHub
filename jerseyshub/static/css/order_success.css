@@ -96,6 +96,7 @@ h2::before {
     animation: twinkle 1.5s infinite;
 }
 
+
 /* @keyframes twinkle {
     0%, 100% {
         opacity: 1;

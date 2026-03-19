@@ -254,9 +254,11 @@ def cart_page(req):
 
 @login_required
 def remove_from_cart(request, cart_id):
-    item = Cart.objects.get(id=cart_id)
-    item.delete()
-    
+    item = Cart.objects.filter(id=cart_id, user=request.user).first()
+
+    if item:
+        item.delete()
+
     return redirect('cart_page')
 
 @login_required
@@ -324,3 +326,13 @@ def my_orders(request):
     orders = Order.objects.filter(user=request.user).order_by("-created_at")
 
     return render(request, "my_orders.html", {"orders": orders})
+
+@login_required
+def cancel_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    if order.status in ['Pending', 'Shipped']:
+        order.status = 'Cancelled'
+        order.save()
+
+    return redirect('my_orders') 

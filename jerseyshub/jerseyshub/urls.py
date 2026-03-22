@@ -42,6 +42,8 @@ path("buy-now/", views.buy_now, name="buy_now"),
 path("order-success/", views.order_success, name="order_success"),
 path("my-orders/", views.my_orders, name="my_orders"),
 path('cancel-order/<int:order_id>/', views.cancel_order, name='cancel_order'),
-
+path('confirm-upi/', views.confirm_upi, name='confirm_upi'),
+path('order/<int:id>/', views.order_detail, name='order_detail'),
+ path('upi-payment/', views.upi_payment, name='upi_payment'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

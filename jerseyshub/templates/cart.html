@@ -288,10 +288,20 @@ Remove
     {% if cart_items %}
     <div class="related-products">
         <div class="container">
-            <h2 class="related-title">You Might Also Like</h2>
-            <div class="related-grid">
-                <!-- Add related products here if available -->
-            </div>
+           <h3>You Might Also Like</h3>
+<div class="related-jerseys">
+    {% for jersey in related_jerseys %}
+        <div class="related-card">
+            <a href="{% url 'jersey_detail' jersey.id %}">
+                <img src="{{ jersey.image.url }}" alt="{{ jersey.team }}" width="120">
+                <p>{{ jersey.team }}</p>
+                <p>₹ {{ jersey.price }}</p>
+            </a>
+        </div>
+    {% empty %}
+        <p>No related jerseys available.</p>
+    {% endfor %}
+</div>
         </div>
     </div>
     {% endif %}

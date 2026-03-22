@@ -245,11 +245,14 @@ def add_to_cart(request, jersey_id):
 @login_required
 def cart_page(req):
     cart_items=Cart.objects.filter(user=req.user)
-    total=0
+    total = sum(item.total_price() for item in cart_items)
+    related_jerseys = []
     for item in cart_items:
-        total += item.total_price()
+        related = Jersey.objects.filter(team=item.jersey.team).exclude(id=item.jersey.id)[:4]
+        related_jerseys.extend(related)
+    related_jerseys = list({j.id: j for j in related_jerseys}.values())
     
-    return render(req,'cart.html',{'cart_items':cart_items,"total":total})
+    return render(req,'cart.html',{'cart_items':cart_items,"total":total,'related_jerseys': related_jerseys})
 
 
 @login_required
@@ -292,10 +295,24 @@ def buy_now(request):
 
     if request.method == "POST":
 
+        fullname = request.POST.get("fullname")
+        email = request.POST.get("email")
         address = request.POST.get("address")
         phone = request.POST.get("phone")
-
-        for item in cart_items:
+        payment = request.POST.get("payment")
+        
+        if payment == "upi":
+            return render(request, "upi_payment.html", {
+                "cart_items": cart_items,
+                "total_price": total_price,
+                 "fullname": fullname,   
+                "email": email,    
+                "address": address,
+                "phone": phone
+            })
+        elif payment == "cod":
+        
+         for item in cart_items:
 
             item_total = item.jersey.price * item.quantity
 
@@ -307,7 +324,8 @@ def buy_now(request):
                 quantity=item.quantity,
                 total_price=item_total,
                 address=address,
-                phone=phone
+                phone=phone,
+                payment_method="Cash on Delivery"
             )
 
         cart_items.delete()
@@ -335,4 +353,58 @@ def cancel_order(request, order_id):
         order.status = 'Cancelled'
         order.save()
 
-    return redirect('my_orders') 
+    return redirect('my_orders')
+
+@login_required
+def confirm_upi(request):
+
+    cart_items = Cart.objects.filter(user=request.user)
+
+    if request.method == "POST":
+
+        address = request.POST.get("address")
+        phone = request.POST.get("phone")
+
+        for item in cart_items:
+
+            item_total = item.jersey.price * item.quantity
+
+            Order.objects.create(
+                user=request.user,
+                jersey=item.jersey,
+                player_name=item.player_name,
+                player_number=item.player_number,
+                quantity=item.quantity,
+                total_price=item_total,
+                address=address,
+                phone=phone,
+                payment_method="UPI",
+                payment_status="Paid"
+            )
+
+        cart_items.delete()
+
+        return redirect("order_success") 
+
+
+
+from datetime import timedelta,date
+@login_required
+def order_detail(request, id):
+    order = get_object_or_404(Order, id=id, user=request.user)
+    order.delivery_date = date.today() + timedelta(days=5)
+    expected_delivery = order.created_at + timedelta(days=5)
+
+    return render(request, "order_detail.html", {
+        "order": order,
+        "expected_delivery": expected_delivery
+    })
+    
+def upi_payment(request):
+    return render(request, "upi_payment.html", {
+        "fullname": request.POST.get("fullname"),
+        "email": request.POST.get("email"),
+        "phone": request.POST.get("phone"),
+        "address": request.POST.get("address"),
+        "total_price": request.POST.get("total_price"),
+    })

@@ -9,9 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-      <div class="back">
-<a  href="{% url 'cart_page' %}" class="back-btn"><----Go Back</a>
+     <div class="back">
+<a  href="{% url 'home' %}" class="back-btn">←Go Back</a>
     </div>
+
     <div class="container">
         <h2>My Orders</h2>
         
@@ -28,17 +29,65 @@
                         <div class="order-details">
                             <p><span class="label">Quantity:</span> <span class="value">{{ order.quantity }}</span></p>
                             <p><span class="label">Total:</span> <span class="value price">₹ {{ order.total_price }}</span></p>
+                            <p>
+                             <span class="label">Payment:</span> 
+                              <span class="value">{{ order.get_payment_method_display }}</span>
+                             </p>
+                              <p>
+                                <span class="label">Payment Status:</span> 
+                                <span class="status-badge">
+                                    {% if order.payment_status == "Paid" %}
+                                        <span style="color: green;">Paid ✅</span>
+                                    {% else %}
+                                        <span style="color: orange;">Pending</span>
+                                    {% endif %}
+                                </span>
+                            </p>
                             <p><span class="label">Status:</span>
                                <span class="status-badge status-{{ order.status|lower }}">{{ order.status }}</span></p>
                             <p><span class="label">Ordered on:</span> <span class="value">{{ order.created_at }}</span></p>
+                            <!-- ✅ Delivery Info -->
+<div class="delivery-box">
+    <p><span class="label">Delivery Status:</span> 
+        {% if order.status == "Pending" %}
+            <span class="delivery pending">Order Placed</span>
+        {% elif order.status == "Shipped" %}
+            <span class="delivery shipped">On the Way 🚚</span>
+        {% elif order.status == "Delivered" %}
+            <span class="delivery delivered">Delivered ✅</span>
+        {% endif %}
+    </p>
+
+    <p><span class="label">Expected Delivery:</span> 
+        <span class="value">
+            {% if order.delivery_date %}
+                {{ order.delivery_date }}
+            {% else %}
+                3 - 5 Days
+            {% endif %}
+        </span>
+    </p>
+</div>
+
                         </div>
+                        
                         {% if order.status == "Pending" or order.status == "Shipped" %}
+                          {% if order.payment_method == "COD" or order.payment_status == "Pending" %}
     <a href="{% url 'cancel_order' order.id %}" 
        class="cancel-btn"
        onclick="return confirm('Are you sure you want to cancel this order?')">
         Cancel Order
     </a>
+ {% else %}
+       <p class="cancel-info">
+    🔒 Payment completed via UPI — cancellation disabled
+</p>
+    {% endif %}
+
 {% endif %}
+<a href="{% url 'order_detail' order.id %}" class="view-btn">
+    View Details
+</a>
                     </div>
                 </div>
             {% endfor %}

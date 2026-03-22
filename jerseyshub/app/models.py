@@ -80,6 +80,15 @@ class Order(models.Model):
         ("Delivered", "Delivered"),
         ('Cancelled', 'Cancelled'),
     ]
+    PAYMENT_CHOICES = [
+        ("COD", "Cash on Delivery"),
+        ("UPI", "UPI"),
+    ]
+
+    PAYMENT_STATUS = [
+        ("Pending", "Pending"),
+        ("Paid", "Paid"),
+    ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     jersey = models.ForeignKey(Jersey, on_delete=models.CASCADE)
 
@@ -91,6 +100,8 @@ class Order(models.Model):
 
     address = models.TextField()
     phone = models.CharField(max_length=15)
+    payment_method = models.CharField(max_length=10, choices=PAYMENT_CHOICES)
+    payment_status = models.CharField(max_length=10, choices=PAYMENT_STATUS, default="Pending")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Pending")
 
     created_at = models.DateTimeField(auto_now_add=True)

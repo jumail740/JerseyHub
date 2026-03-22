@@ -1,0 +1,95 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    {% load static %} 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details - {{ order.id }}</title> 
+    <link rel="stylesheet" href="{% static 'css/order_detail.css' %}"> 
+</head> 
+<body> 
+    <div class="container"> 
+        <a href="{% url 'my_orders' %}" class="back-btn">← Back to Orders</a> 
+        
+        <h2>Order Details</h2> 
+        
+        <div class="order-box"> 
+            <img src="{{ order.jersey.image.url }}" alt="{{ order.jersey.team }} Jersey" width="200"> 
+            <h3>{{ order.jersey.team }}</h3> 
+            
+            <p><b>Order ID:</b> #{{ order.id }}</p> 
+            <p><b>Quantity:</b> {{ order.quantity }}</p> 
+            <p><b>Total Price:</b> ₹ {{ order.total_price }}</p> 
+            <p><b>Player Name:</b> {{ order.player_name }}</p> 
+            <p><b>Player Number:</b> {{ order.player_number }}</p> 
+            <p><b>Payment Method:</b> {{ order.get_payment_method_display }}</p> 
+            <p><b>Payment Status:</b> 
+                {% if order.payment_status == "Paid" %}
+                    <span style="color: #48bb78;">✓ {{ order.payment_status }}</span>
+                {% else %}
+                    {{ order.payment_status }}
+                {% endif %}
+            </p> 
+            <p><b>Order Status:</b> 
+<div class="tracking-container">
+
+    <div class="step {% if order.status == 'Pending' or order.status == 'Shipped' or order.status == 'Delivered' %}active{% endif %}">
+        <div class="circle">1</div>
+        <p>Pending</p>
+    </div>
+
+    <div class="line {% if order.status == 'Shipped' or order.status == 'Delivered' %}active{% endif %}"></div>
+
+    <div class="step {% if order.status == 'Shipped' or order.status == 'Delivered' %}active{% endif %}">
+        <div class="circle">2</div>
+        <p>Shipped</p>
+    </div>
+
+    <div class="line {% if order.status == 'Delivered' %}active{% endif %}"></div>
+
+    <div class="step {% if order.status == 'Delivered' %}active{% endif %}">
+        <div class="circle">3</div>
+        <p>Delivered</p>
+    </div>
+
+</div>
+            </p> 
+            <p><b>Address:</b> {{ order.address }}</p> 
+            <p><b>Phone:</b> {{ order.phone }}</p> 
+            <p><b>Ordered On:</b> {{ order.created_at|date:"d M Y, h:i A" }}</p> 
+            {% if order.status == "Delivered" %}
+    <p style="color: green;">
+        ✅ Delivered successfully
+    </p>
+
+{% elif order.status == "Cancelled" %}
+    <p style="color: red;">
+        ❌ Order Cancelled
+    </p>
+
+{% else %}
+    <p style="color: #555;">
+        🚚 Expected Delivery: 
+        {{ expected_delivery|date:"d M Y" }}
+    </p>
+{% endif %}
+            
+           {% if order.status|lower == "pending" or order.status|lower == "shipped" %}
+
+    {% if order.payment_method == "COD" %}
+        <a href="{% url 'cancel_order' order.id %}" class="cancel-btn">
+            Cancel Order
+        </a>
+
+    {% elif order.payment_method|lower == "upi" and order.payment_status == "Paid" %}
+        <p class="cancel-info">
+            🔒 Payment completed via UPI — cancellation disabled
+        </p>
+
+    {% endif %}
+
+{% endif %}
+        </div> 
+    </div> 
+</body> 
+</html>

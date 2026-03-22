@@ -867,27 +867,49 @@ body {
     transform: translateY(-2px);
 }
 
-/* Related Products */
-.related-products {
-    background: white;
-    padding: 3rem 0;
-    margin-top: 3rem;
-    border-top: 1px solid #eef2f6;
+
+.related-jerseys {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
 }
 
-.related-title {
-    font-size: 1.5rem;
+.related-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    width: 150px;
+    background: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.related-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.related-card img {
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+.related-card p:first-of-type {
+    font-size: 14px;
     font-weight: 600;
-    color: #0f172a;
-    margin-bottom: 2rem;
+    color: #333;
+    margin: 4px 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-.related-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.5rem;
+.related-card p:last-of-type {
+    font-size: 13px;
+    font-weight: 700;
+    color: #e53935;  
+    margin: 2px 0;
 }
-
 /* Responsive Design */
 @media (max-width: 1024px) {
     .cart-content {

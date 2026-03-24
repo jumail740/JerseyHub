@@ -331,19 +331,23 @@ font-weight:bold;
     font-weight: bold;
 }
 
-.logout {
-    background: #dc3545;
-    color: white;
-    border: none;
+
+.logout-btn .logout {
+    background: transparent;
+    border: 1.5px solid #1e293b;
+    color: #1e293b;
+    font-weight: 600;
+    font-size: 0.9rem;
     padding: 0.5rem 1.5rem;
-    border-radius: 5px;
-    font-weight: 500;
+    border-radius: 100px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.15s ease;
+    font-family: 'Inter', sans-serif;
 }
 
-.logout:hover {
-    background: #c82333;
+.logout-btn .logout:hover {
+    background: #1e293b;
+    color: white;
 }
 .player-options{
 display:flex;

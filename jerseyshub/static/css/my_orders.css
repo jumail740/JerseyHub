@@ -307,7 +307,7 @@ h2:after {
         justify-content: center;
     }
 } */
- * {
+ /* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -689,5 +689,459 @@ h2 {
     h2 {
         color: black;
         text-shadow: none;
+    }
+} */
+ /* ========== RESET & BASE ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+    background: #f5f7fb;
+    padding: 32px 20px;
+}
+
+/* ========== COMPACT WRAPPER ========== */
+.compact-wrapper {
+    max-width: 920px;
+    margin: 0 auto;
+}
+
+/* ========== TOP NAVIGATION ========== */
+.top-nav {
+    margin-bottom: 28px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    color: #334155;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 6px 16px;
+    border-radius: 40px;
+    transition: all 0.2s ease;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.back-link:hover {
+    background: #f8fafc;
+    transform: translateX(-3px);
+    border-color: #cbd5e1;
+}
+
+/* ========== PAGE TITLE ========== */
+.page-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.3px;
+    margin-bottom: 24px;
+    border-left: 4px solid #3b82f6;
+    padding-left: 16px;
+}
+
+/* ========== ORDERS LIST ========== */
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* ========== ORDER ITEM CARD - COMPACT ========== */
+.order-item {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    display: flex;
+    gap: 18px;
+    padding: 18px 20px;
+    transition: all 0.2s ease;
+    border: 1px solid #edf2f7;
+}
+
+.order-item:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+    border-color: #e2e8f0;
+}
+
+/* ========== IMAGE SECTION - COMPACT ========== */
+.item-image {
+    flex-shrink: 0;
+    width: 90px;
+    height: 90px;
+    background: #fafcff;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid #eef3fc;
+    padding: 6px;
+}
+
+.item-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.order-item:hover .item-image img {
+    transform: scale(1.03);
+}
+
+/* ========== DETAILS AREA ========== */
+.item-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.team-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+/* ========== META GRID - COMPACT INFO ROWS ========== */
+.meta-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    margin-bottom: 14px;
+    row-gap: 10px;
+}
+
+.meta-block {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.meta-label {
+    font-weight: 600;
+    color: #64748b;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.meta-value {
+    font-weight: 500;
+    color: #1e293b;
+    font-size: 0.85rem;
+}
+
+.price {
+    font-weight: 700;
+    color: #d97706;
+    font-size: 0.9rem;
+}
+
+/* ========== BADGES ========== */
+.badge-success {
+    background: #e6f7e6;
+    color: #15803d;
+    padding: 2px 8px;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge-warning {
+    background: #fffbeb;
+    color: #b45309;
+    padding: 2px 8px;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.badge-order {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: #f1f5f9;
+    color: #334155;
+}
+
+.status-pending {
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.status-shipped {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.status-delivered {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.status-cancelled {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+/* ========== DELIVERY COMPACT CARD ========== */
+.delivery-compact-card {
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 10px 14px;
+    margin: 12px 0 14px;
+    border: 1px solid #eef2f8;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    font-size: 0.75rem;
+}
+
+.delivery-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.delivery-icon {
+    font-size: 0.85rem;
+}
+
+.delivery-label {
+    font-weight: 600;
+    color: #475569;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.delivery-status-text {
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.delivery-status-text.pending {
+    color: #ea580c;
+}
+
+.delivery-status-text.shipped {
+    color: #2563eb;
+}
+
+.delivery-status-text.delivered {
+    color: #16a34a;
+}
+
+.delivery-date {
+    font-weight: 500;
+    color: #334155;
+    font-size: 0.8rem;
+}
+
+/* ========== ACTION BUTTONS - COMPACT & CLEAN ========== */
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-top: 6px;
+}
+
+.btn-cancel {
+    background: #fff5f5;
+    border: 1px solid #ffe2e2;
+    color: #c2410c;
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.btn-cancel:hover {
+    background: #fee2e2;
+    border-color: #fecaca;
+    transform: translateY(-1px);
+}
+
+.cancel-disabled {
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 40px;
+    font-size: 0.7rem;
+    color: #475569;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-detail {
+    background: white;
+    border: 1px solid #cbd5e1;
+    color: #1e40af;
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s;
+}
+
+.btn-detail:hover {
+    background: #eff6ff;
+    border-color: #3b82f6;
+    transform: translateX(2px);
+}
+
+/* ========== EMPTY STATE ========== */
+.empty-state {
+    background: white;
+    border-radius: 24px;
+    padding: 48px 24px;
+    text-align: center;
+    border: 1px solid #edf2f7;
+}
+
+.empty-state p {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+}
+
+.shop-link {
+    display: inline-block;
+    background: #3b82f6;
+    color: white;
+    text-decoration: none;
+    padding: 8px 24px;
+    border-radius: 40px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.shop-link:hover {
+    background: #2563eb;
+}
+
+/* ========== RESPONSIVE - TABLET & MOBILE ========== */
+@media (max-width: 700px) {
+    body {
+        padding: 20px 16px;
+    }
+    
+    .order-item {
+        flex-direction: column;
+        padding: 16px;
+        gap: 14px;
+    }
+    
+    .item-image {
+        width: 100px;
+        height: 100px;
+        align-self: center;
+    }
+    
+    .team-name {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    
+    .meta-grid {
+        justify-content: center;
+        gap: 10px 18px;
+    }
+    
+    .delivery-compact-card {
+        justify-content: center;
+    }
+    
+    .action-buttons {
+        justify-content: center;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+        text-align: center;
+        border-left: none;
+        padding-left: 0;
+    }
+    
+    .top-nav {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .meta-grid {
+        gap: 8px 12px;
+    }
+    
+    .meta-block {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        background: #fafcff;
+        padding: 4px 8px;
+        border-radius: 12px;
+    }
+    
+    .delivery-compact-card {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .delivery-row {
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    .btn-cancel, .btn-detail, .cancel-disabled {
+        padding: 5px 14px;
+        font-size: 0.7rem;
+    }
+}
+
+/* ========== PRINT STYLES (optional) ========== */
+@media print {
+    body {
+        background: white;
+        padding: 20px;
+    }
+    
+    .back-link,
+    .btn-cancel,
+    .cancel-disabled,
+    .btn-detail {
+        display: none;
+    }
+    
+    .order-item {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
     }
 }

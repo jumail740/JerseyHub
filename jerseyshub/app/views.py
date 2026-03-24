@@ -6,6 +6,10 @@ from django.contrib.auth import login,logout,authenticate
 from .models import Profile
 from .models import Jersey,Wishlist,Cart,Order
 from django.db.models import Q
+from django.core.mail import send_mail
+from django.conf import settings
+from django.core.mail import EmailMessage
+
 
 # Create your views here.
 
@@ -285,54 +289,78 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Cart, Order
 
+
+
 @login_required
 def buy_now(request):
-
     cart_items = Cart.objects.filter(user=request.user)
-    total_price = 0
-    for item in cart_items:
-        total_price += item.jersey.price * item.quantity
+    total_price = sum(item.jersey.price * item.quantity for item in cart_items)
 
     if request.method == "POST":
-
         fullname = request.POST.get("fullname")
         email = request.POST.get("email")
         address = request.POST.get("address")
         phone = request.POST.get("phone")
         payment = request.POST.get("payment")
-        
+       
         if payment == "upi":
             return render(request, "upi_payment.html", {
                 "cart_items": cart_items,
                 "total_price": total_price,
-                 "fullname": fullname,   
-                "email": email,    
+                "fullname": fullname,
+                "email": email,
                 "address": address,
                 "phone": phone
             })
+            
         elif payment == "cod":
-        
-         for item in cart_items:
+            
+            for item in cart_items:
+                item_total = item.jersey.price * item.quantity
+                Order.objects.create(
+                    user=request.user,
+                    jersey=item.jersey,
+                    player_name=item.player_name,
+                    player_number=item.player_number,
+                    quantity=item.quantity,
+                    total_price=item_total,
+                    address=address,
+                    phone=phone,
+                    payment_method="Cash on Delivery"
+                )
+                send_mail(
+            subject="Order Placed - Jersey Hub",
+            message = f"""
+                   Hi {fullname}, 👋
 
-            item_total = item.jersey.price * item.quantity
+                   🎉 Congratulations! Your order has been placed successfully.
+                   
+                   Thank you for shopping with **Jersey Hub 👕** – your favorite jerseys delivered to your door!  
+                   
+                   🏆 What happens next:
+                   - We’re packing your order with care.
+                   - You’ll receive a shipping update soon.
+                   - Your jersey is ready to make you stand out on the field! ⚽🏀🏈
+                   
+                   💡 Pro Tip: Check our new arrivals for the latest jerseys and gear!
+                   
+                   We hope you enjoy your purchase! Thank you for choosing Jersey Hub. 🙌
+                   
+                   Warm regards,
+                   The Jersey Hub Team
+                   """,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[email],
+            fail_silently=False,
+        )
 
-            Order.objects.create(
-                user=request.user,
-                jersey=item.jersey,
-                player_name=item.player_name,
-                player_number=item.player_number,
-                quantity=item.quantity,
-                total_price=item_total,
-                address=address,
-                phone=phone,
-                payment_method="Cash on Delivery"
-            )
+          
+            # Clear cart
+            cart_items.delete()
+            messages.success(request, "Order placed successfully! A confirmation email has been sent.")
+            return redirect("order_success")
 
-        cart_items.delete()
-
-        return redirect("order_success")
-
-    return render(request, "checkout.html", {"cart_items": cart_items,"total_price": total_price})
+    return render(request, "checkout.html", {"cart_items": cart_items, "total_price": total_price})
 
 def order_success(request):
     return render(request, "order_success.html")
@@ -362,8 +390,11 @@ def confirm_upi(request):
 
     if request.method == "POST":
 
+        fullname = request.user.get_full_name() or request.user.username
+        email = request.user.email
         address = request.POST.get("address")
         phone = request.POST.get("phone")
+        total_price = sum(item.jersey.price * item.quantity for item in cart_items)
 
         for item in cart_items:
 
@@ -380,6 +411,34 @@ def confirm_upi(request):
                 phone=phone,
                 payment_method="UPI",
                 payment_status="Paid"
+            )
+        if email:
+            subject = "Order Placed - Jersey Hub"
+            message = f"""
+Hi {fullname}, 👋
+
+🎉 Congratulations! Your order has been placed successfully.
+
+Thank you for shopping with **Jersey Hub 👕** – your favorite jerseys delivered to your door!  
+
+🏆 What happens next:
+- We’re packing your order with care.
+- You’ll receive a shipping update soon.
+- Your jersey is ready to make you stand out on the field! ⚽🏀🏈
+
+💡 Pro Tip: Check our new arrivals for the latest jerseys and gear!
+
+We hope you enjoy your purchase! Thank you for choosing Jersey Hub. 🙌
+
+Warm regards,
+The Jersey Hub Team
+"""
+            send_mail(
+                subject=subject,
+                message=message,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[email],
+                fail_silently=False
             )
 
         cart_items.delete()

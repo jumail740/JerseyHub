@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UPI Payment</title>
@@ -87,8 +88,10 @@
     <h2>UPI Payment</h2>
     <p>Scan & Pay</p>
 
+
+    {% load static %}
     <div class="qr">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=yourname@upi&pn=JerseyShop&am={{ total_price }}" alt="QR">
+         <img src="{% static 'images/qr.jpeg' %}" alt="Google Pay QR" width="400px" height="300px" {{ total_price }}">
     </div>
 
     <div class="upi">

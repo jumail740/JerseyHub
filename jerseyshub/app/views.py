@@ -9,6 +9,11 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from django.conf import settings
 from django.core.mail import EmailMessage
+from django.conf import settings
+import razorpay
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -293,78 +298,98 @@ from .models import Cart, Order
 
 @login_required
 def buy_now(request):
+
     cart_items = Cart.objects.filter(user=request.user)
     total_price = sum(item.jersey.price * item.quantity for item in cart_items)
+    amount = int(total_price * 100)  
 
     if request.method == "POST":
+
         fullname = request.POST.get("fullname")
         email = request.POST.get("email")
         address = request.POST.get("address")
         phone = request.POST.get("phone")
-        payment = request.POST.get("payment")
-       
-        if payment == "upi":
-            return render(request, "upi_payment.html", {
-                "cart_items": cart_items,
-                "total_price": total_price,
-                "fullname": fullname,
-                "email": email,
-                "address": address,
-                "phone": phone
-            })
-            
-        elif payment == "cod":
-            
+        payment_method = request.POST.get("payment")
+         
+        if payment_method == "cod":
+
             for item in cart_items:
-                item_total = item.jersey.price * item.quantity
                 Order.objects.create(
                     user=request.user,
                     jersey=item.jersey,
                     player_name=item.player_name,
                     player_number=item.player_number,
                     quantity=item.quantity,
-                    total_price=item_total,
+                    total_price=item.jersey.price * item.quantity,
                     address=address,
                     phone=phone,
                     payment_method="Cash on Delivery"
                 )
-                send_mail(
-            subject="Order Placed - Jersey Hub",
-            message = f"""
-                   Hi {fullname}, 👋
+            if email:
+                send_order_email(email, fullname)    
 
-                   🎉 Congratulations! Your order has been placed successfully.
-                   
-                   Thank you for shopping with **Jersey Hub 👕** – your favorite jerseys delivered to your door!  
-                   
-                   🏆 What happens next:
-                   - We’re packing your order with care.
-                   - You’ll receive a shipping update soon.
-                   - Your jersey is ready to make you stand out on the field! ⚽🏀🏈
-                   
-                   💡 Pro Tip: Check our new arrivals for the latest jerseys and gear!
-                   
-                   We hope you enjoy your purchase! Thank you for choosing Jersey Hub. 🙌
-                   
-                   Warm regards,
-                   The Jersey Hub Team
-                   """,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[email],
-            fail_silently=False,
-        )
-
-          
-            # Clear cart
             cart_items.delete()
-            messages.success(request, "Order placed successfully! A confirmation email has been sent.")
             return redirect("order_success")
+        
+        elif payment_method=="upi":
+        # 🔥 Create Razorpay Order
+           client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
-    return render(request, "checkout.html", {"cart_items": cart_items, "total_price": total_price})
+           payment = client.order.create({
+              "amount": amount,
+              "currency": "INR",
+              "payment_capture": 1
+        })
 
+        return render(request, "checkout.html", {
+            "cart_items": cart_items,
+            "total_price": total_price,
+            "payment": payment,
+            "razorpay_key": settings.RAZORPAY_KEY_ID,
+            "show_razorpay": True,
+            "fullname": fullname,
+            "email": email,
+            "address": address,
+            "phone": phone
+        })
+
+    return render(request, "checkout.html", {
+        "cart_items": cart_items,
+        "total_price": total_price
+    })
+    
+    
 def order_success(request):
     return render(request, "order_success.html")
 
+@csrf_exempt
+@login_required
+def payment_success(request):
+
+    if request.method == "POST":
+        data = json.loads(request.body)
+
+        cart_items = Cart.objects.filter(user=request.user)
+        fullname = request.user.get_full_name() or request.user.username
+        email = request.user.email
+        for item in cart_items:
+            Order.objects.create(
+                user=request.user,
+                jersey=item.jersey,
+                player_name=item.player_name,
+                player_number=item.player_number,
+                quantity=item.quantity,
+                total_price=item.jersey.price * item.quantity,
+                address=data.get("address"),
+                phone=data.get("phone"),
+                payment_method="Razorpay",
+                payment_status="Paid"
+            )
+        if email:
+            send_order_email(email, fullname)
+        cart_items.delete()
+
+        return JsonResponse({"status": "success"})
 
 @login_required
 def my_orders(request):
@@ -372,6 +397,7 @@ def my_orders(request):
     orders = Order.objects.filter(user=request.user).order_by("-created_at")
 
     return render(request, "my_orders.html", {"orders": orders})
+
 
 @login_required
 def cancel_order(request, order_id):
@@ -383,67 +409,33 @@ def cancel_order(request, order_id):
 
     return redirect('my_orders')
 
-@login_required
-def confirm_upi(request):
 
-    cart_items = Cart.objects.filter(user=request.user)
+def send_order_email(email, fullname):
+    subject = "Order Placed - Jersey Hub"
 
-    if request.method == "POST":
-
-        fullname = request.user.get_full_name() or request.user.username
-        email = request.user.email
-        address = request.POST.get("address")
-        phone = request.POST.get("phone")
-        total_price = sum(item.jersey.price * item.quantity for item in cart_items)
-
-        for item in cart_items:
-
-            item_total = item.jersey.price * item.quantity
-
-            Order.objects.create(
-                user=request.user,
-                jersey=item.jersey,
-                player_name=item.player_name,
-                player_number=item.player_number,
-                quantity=item.quantity,
-                total_price=item_total,
-                address=address,
-                phone=phone,
-                payment_method="UPI",
-                payment_status="Paid"
-            )
-        if email:
-            subject = "Order Placed - Jersey Hub"
-            message = f"""
+    message = f"""
 Hi {fullname}, 👋
 
-🎉 Congratulations! Your order has been placed successfully.
+🎉 Your order has been placed successfully!
 
-Thank you for shopping with **Jersey Hub 👕** – your favorite jerseys delivered to your door!  
+Thank you for shopping with Jersey Hub 👕  
 
 🏆 What happens next:
-- We’re packing your order with care.
-- You’ll receive a shipping update soon.
-- Your jersey is ready to make you stand out on the field! ⚽🏀🏈
+- We’re preparing your order
+- Shipping updates will follow soon
 
-💡 Pro Tip: Check our new arrivals for the latest jerseys and gear!
+We appreciate your support 🙌
 
-We hope you enjoy your purchase! Thank you for choosing Jersey Hub. 🙌
-
-Warm regards,
-The Jersey Hub Team
+- Jersey Hub Team
 """
-            send_mail(
-                subject=subject,
-                message=message,
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[email],
-                fail_silently=False
-            )
 
-        cart_items.delete()
-
-        return redirect("order_success") 
+    send_mail(
+        subject=subject,
+        message=message,
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[email],
+        fail_silently=False,
+    )
 
 
 
@@ -459,11 +451,3 @@ def order_detail(request, id):
         "expected_delivery": expected_delivery
     })
     
-def upi_payment(request):
-    return render(request, "upi_payment.html", {
-        "fullname": request.POST.get("fullname"),
-        "email": request.POST.get("email"),
-        "phone": request.POST.get("phone"),
-        "address": request.POST.get("address"),
-        "total_price": request.POST.get("total_price"),
-    })

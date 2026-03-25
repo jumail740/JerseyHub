@@ -9,12 +9,32 @@
 </head>
 
 <body>
-    <h2>Order Placed Successfully 🎉</h2>
-
-<p>Thank you for shopping with JerseyHub.</p>
-
-<a href="{% url 'home' %}">
-<button>Continue Shopping</button>
-</a>
+      <div class="success-container">
+        <div class="success-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+               </div>
+     <h2>Order Placed Successfully! 🎉</h2>
+        
+        <p>Thank you for shopping with JerseyHub.<br>Your order has been confirmed.</p>
+        
+        <div class="order-details">
+            <p>
+                <span class="label">Order ID:</span>
+                <span class="value order-id">#{{ order.id }}</span>
+            </p>
+            <p>
+                <span class="label">Estimated Delivery:</span>
+                <span class="value">3-5 Business Days</span>
+            </p>
+        </div>
+        
+        <p class="timer-text">You will receive a confirmation email shortly.</p>
+        
+        <a href="{% url 'home' %}">
+            <button>Continue Shopping →</button>
+        </a>
+    </div>
 </body>
 </html>

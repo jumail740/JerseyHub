@@ -109,4 +109,39 @@
         </div>
     </div>
 </body>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+{% if show_razorpay %}
+<script>
+var options = {
+    "key": "{{ razorpay_key }}",
+    "amount": "{{ payment.amount }}",
+    "currency": "INR",
+    "name": "JerseyHub",
+    "description": "Order Payment",
+    "order_id": "{{ payment.id }}",
+
+    "handler": function (response){
+
+        fetch("/payment-success/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                address: "{{ address }}",
+                phone: "{{ phone }}"
+            })
+        });
+
+        window.location.replace("/order-success/");
+    }
+};
+
+var rzp = new Razorpay(options);
+rzp.open();  // 🔥 AUTO OPEN
+</script>
+{% endif %}
 </html>

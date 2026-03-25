@@ -1,4 +1,4 @@
-
+/* 
 * {
     margin: 0;
     padding: 0;
@@ -54,7 +54,7 @@ h2{
     margin: 0 auto;
 }
 
-/* Jersey Card */
+
 .jersey-card {
     background: white;
     border-radius: 8px;
@@ -161,33 +161,124 @@ h2{
     background: #c0392b;
 }
 
+
 .empty-message {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 60px 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+
+.empty-message::before {
+    content: "❤️";
+    position: absolute;
+    font-size: 200px;
+    opacity: 0.03;
+    bottom: -30px;
+    right: -30px;
+    pointer-events: none;
 }
 
 .empty-message p {
-    font-size: 18px;
-    color: #666;
+    font-size: 20px;
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.empty-message p::before {
+    content: "📭";
+    font-size: 48px;
+    display: block;
     margin-bottom: 20px;
+    opacity: 0.7;
 }
 
 .continue-btn {
-    display: inline-block;
-    background: #3498db;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     text-decoration: none;
-    padding: 12px 30px;
-    border-radius: 5px;
-    transition:  0.2s;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.continue-btn::before {
+    content: "🛍️";
+    font-size: 18px;
+    transition: transform 0.3s ease;
 }
 
 .continue-btn:hover {
-    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.continue-btn:active {
+    transform: translateY(0);
+}
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.empty-message {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.empty-message::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    border-radius: 16px 16px 0 0;
+}
+
+
+@media (max-width: 768px) {
+    .empty-message {
+        padding: 60px 20px;
+    }
+    
+    .empty-message p {
+        font-size: 18px;
+    }
+    
+    .empty-message p::before {
+        font-size: 40px;
+    }
+    
+    .continue-btn {
+        padding: 12px 28px;
+        font-size: 14px;
+    }
 }
 .button-group{
 display:flex;
@@ -331,7 +422,7 @@ pointer-events:none;
     background: #1e293b;
     color: white;
 }
-/* Responsive */
+
 @media (max-width: 768px) {
     .nav {
         padding: 15px 20px;
@@ -354,4 +445,500 @@ pointer-events:none;
     .button-group {
         flex-direction: column;
     }
+} */
+ /* wishlist.css */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Navigation Styles */
+
+ .nav {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03); 
+}
+
+.logo {
+    height: 50px;
+    transition: transform 0.2s ease;
+}
+
+.logo:hover {
+    transform: scale(1.08);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #1e293b;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #2563eb;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+.nav-links a:hover {
+    color: #2563eb;
+}
+
+.search-box {
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 25px;
+    width: 250px;
+    outline: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.search-box:focus {
+    width: 300px;
+    box-shadow: 0 0 0 2px #2563eb;
+}
+
+.wishlist-icon, .cart-icon {
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.wishlist-icon:hover, .cart-icon:hover {
+    transform: scale(1.1);
+}
+
+.love, .cart {
+    width: 28px;
+    height: 28px;
+    filter: brightness(0) invert(1);
+}
+
+.logout {
+     background: transparent;
+    border: 1.5px solid #1e293b;
+    color: #1e293b;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.5rem;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.logout:hover {
+     background: #1e293b;
+    color: white;
+
+}
+
+/* Back Button */
+.back {
+    padding: 1.5rem 2rem 0 2rem;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.back-btn:hover {
+    color: #2563eb;
+    transform: translateX(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Page Title */
+h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #1a1a2e;
+    margin: 2rem 0;
+    position: relative;
+    font-weight: 700;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #ff6b6b, #ff8e8e);
+    border-radius: 3px;
+}
+
+/* Jersey Container Grid */
+.jersey-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Jersey Card Styles */
+.jersey-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+.jersey-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.jersey-card a {
+    display: block;
+    overflow: hidden;
+}
+
+.jersey-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.jersey-card:hover img {
+    transform: scale(1.05);
+}
+
+.jersey-card h3 {
+    font-size: 1.25rem;
+    color: #1a1a2e;
+    padding: 1rem 1rem 0.5rem 1rem;
+    font-weight: 600;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff6b6b;
+    padding: 0 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Stock Status Badges */
+.soldout {
+    display: inline-block;
+    background: #dc3545;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 0 1rem 0.5rem 1rem;
+}
+
+.lowstock {
+    display: inline-block;
+    background: #ffc107;
+    color: #856404;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 0 1rem 0.5rem 1rem;
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-top: 1px solid #e9ecef;
+    margin-top: 0.5rem;
+}
+
+.cart-btn, .remove-btn {
+    flex: 1;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.cart-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.cart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.remove-btn {
+    background: #f8f9fa;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+.remove-btn:hover {
+    background: #dc3545;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+}
+
+/* Empty Wishlist Message */
+.empty-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 40px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.empty-message::before {
+    content: "";
+    position: absolute;
+    font-size: 250px;
+    opacity: 0.05;
+    bottom: -50px;
+    right: -50px;
+    pointer-events: none;
+    animation: float 6s ease-in-out infinite;
+}
+
+.empty-message::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ff6b6b, #ff8e8e, #ffb6b6);
+}
+
+.empty-message p {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.empty-message p::before {
+    content: "📭";
+    font-size: 64px;
+    display: block;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+.continue-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    padding: 14px 40px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.continue-btn::before {
+    content: "🛍️";
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.continue-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.continue-btn:active {
+    transform: translateY(0);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+}
+
+.jersey-card {
+    animation: fadeInUp 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+/* .jersey-card:nth-child(1) { animation-delay: 0.1s; }
+.jersey-card:nth-child(2) { animation-delay: 0.2s; }
+.jersey-card:nth-child(3) { animation-delay: 0.3s; }
+.jersey-card:nth-child(4) { animation-delay: 0.4s; }
+.jersey-card:nth-child(5) { animation-delay: 0.5s; }
+.jersey-card:nth-child(6) { animation-delay: 0.6s; } */
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .jersey-container {
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+    
+    .nav-links {
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .search-box {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .search-box:focus {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    h2 {
+        font-size: 2rem;
+        margin: 1.5rem 0;
+    }
+    
+    .jersey-container {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .jersey-card img {
+        height: 220px;
+    }
+    
+    .empty-message {
+        padding: 60px 20px;
+    }
+    
+    .empty-message p {
+        font-size: 1.25rem;
+    }
+    
+    .empty-message p::before {
+        font-size: 48px;
+    }
+    
+    .continue-btn {
+        padding: 12px 32px;
+        font-size: 0.9rem;
+    }
+    
+    .back {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .jersey-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .cart-btn, .remove-btn {
+        text-align: center;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
+}
+

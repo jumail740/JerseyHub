@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-qb1g6gx8u&m^%fx6t5)^+q-n1pfkg&jc=z)gl8f=58hi3w5bt5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["jumail123.pythonanywhere.com"]
 
 
 # Application definition
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'channels',
     
 ]
-ASGI_APPLICATION = "jerseyhub.asgi.application"
+ASGI_APPLICATION = "jerseyshub.asgi.application" 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

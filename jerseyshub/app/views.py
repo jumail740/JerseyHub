@@ -332,7 +332,7 @@ def buy_now(request):
             return redirect("order_success")
         
         elif payment_method=="upi":
-        # 🔥 Create Razorpay Order
+      
            client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
            payment = client.order.create({

@@ -7,6 +7,7 @@ body {
 
  .nav {
     background: rgba(255, 255, 255, 0.95);
+    background-color: white;
     padding: 1rem 2rem;
     display: flex;
     align-items: center;
@@ -140,7 +141,7 @@ body {
 }
 
 h2{
-    padding-left: 600px;
+    text-align: center;
     font-size: xx-large;
     font-weight: 500;
     color: rgb(0, 0, 0);
@@ -299,4 +300,138 @@ margin-bottom:10px;
     background: #f8fafc;
     color: #2563eb;
     transform: translateX(-5px);
+}/* ===== Responsive CSS for Products Page ===== */
+/* ================== Products Page Responsive Styles ================== */
+
+/* Mobile phones (≤480px) */
+@media (max-width: 480px) {
+    .nav {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 8px;
+    }
+    .nav .logo {
+        width: 100px;
+        margin-bottom: 5px;
+    }
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        margin: 5px 0;
+    }
+    .nav-links a {
+        margin: 4px 0;
+        font-size: 13px;
+    }
+    .search-box {
+        width: 100%;
+        font-size: 13px;
+        margin: 5px 0;
+    }
+    .wishlist-icon img,
+    .cart-icon img {
+        width: 20px;
+        height: 20px;
+    }
+    .logout-btn {
+        width: 100%;
+        text-align: center;
+        margin-top: 5px;
+    }
+    .back-btn {
+        font-size: 14px;
+        padding: 5px 8px;
+    }
+    h2, h3 {
+        font-size: 16px;
+        text-align: center;
+        margin: 8px 5px;
+    }
+    .jerseys {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 5px;
+    }
+    .jersey-card img {
+        width: 100%;
+        height: auto;
+    }
+    .jersey-info h3 {
+        font-size: 14px;
+    }
+    .jersey-info .price {
+        font-size: 13px;
+    }
+    .cart-btn {
+        font-size: 13px;
+        padding: 5px 10px;
+    }
+    .heart {
+        font-size: 16px;
+    }
+}
+
+/* Small tablets (481px – 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .nav-links {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    h2, h3 {
+        font-size: 18px;
+        text-align: center;
+        margin: 10px 0;
+    }
+    .back-btn {
+        font-size: 15px;
+        padding: 6px 10px;
+    }
+    .jerseys {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    .jersey-info h3 {
+        font-size: 15px;
+    }
+    .jersey-info .price {
+        font-size: 14px;
+    }
+    .cart-btn {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+}
+
+/* Larger tablets / small desktops (769px – 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .jerseys {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+    h2, h3 {
+        font-size: 20px;
+        text-align: left;
+        margin: 12px 0;
+    }
+    .back-btn {
+        font-size: 16px;
+        padding: 7px 12px;
+    }
+}
+
+/* Medium desktops (1025px – 1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .jerseys {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+    }
+}
+
+/* Large desktops (1281px+) */
+@media (min-width: 1281px) {
+    .jerseys {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+    }
 }

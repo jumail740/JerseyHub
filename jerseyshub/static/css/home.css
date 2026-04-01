@@ -24,6 +24,7 @@ body {
     top: 0;
     z-index: 1000;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03); 
+    background-color: white;
 }
 
 .logo {
@@ -474,100 +475,116 @@ width:300px;
 background:white;
 border:1px solid #ccc;
 }
+/* ===== Responsive Styles for JerseyHub ===== */
 
+/* Mobile-first base adjustments */
 @media (max-width: 1024px) {
+    /* Navigation */
     .nav {
-        padding: 1rem 4%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 10px;
     }
-    
     .nav-links {
-        gap: 1.5rem;
+        flex-basis: 100%;
+        display: flex;
+        justify-content: space-around;
+        margin: 10px 0;
     }
-    
     .search-box {
-        width: 220px;
+        width: 100%;
+        margin: 10px 0;
     }
-    
-    .search-box:focus {
-        width: 260px;
+    .logout-btn {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    /* Slider */
+    .slider-container {
+        width: 100%;
+        overflow: hidden;
+    }
+    .home-images {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+    .imgs img {
+        width: 100%;
+        height: auto;
+    }
+    .slider-dots {
+        justify-content: center;
+    }
+
+    /* Jersey cards */
+    .jersey-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 0 10px;
+    }
+    .jersey-card {
+        padding: 10px;
+    }
+
+    /* Featured images */
+    .world-img img,
+    .club-img img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Footer */
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-section {
+        margin-bottom: 15px;
     }
 }
 
 @media (max-width: 768px) {
-    .nav {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
     .nav-links {
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 1.2rem;
+        flex-direction: column;
     }
-    
-    .search-box {
-        width: 100%;
-    }
-    
-    .search-box:focus {
-        width: 100%;
-    }
-    
-    .wishlist-icon, .cart-icon {
-        position: absolute;
-        top: 1rem;
-        right: 5rem;
-    }
-    
-    .cart-icon {
-        right: 2rem;
-    }
-    
-    .logout-btn {
-        text-align: center;
-    }
-    
-    .imgs {
-        height: 300px;
-    }
-    
-    h3#new, h3#world {
-        font-size: 1.8rem;
-        margin-left: 4%;
-    }
-    
     .jersey-container {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.2rem;
-        padding-left: 4%;
-        padding-right: 4%;
+        grid-template-columns: 1fr;
     }
-    
-    .world-img, .club-img {
-        margin-left: 4%;
-        margin-right: 4%;
+    .search-box {
+        font-size: 14px;
     }
-    
-    .world-img img, .club-img img {
-        height: 250px;
+    .logout {
+        font-size: 14px;
+        padding: 6px 12px;
     }
 }
 
 @media (max-width: 480px) {
-    .imgs {
-        height: 220px;
+    .nav {
+        padding: 5px;
     }
-    
-    .jersey-info {
-        padding: 1rem;
+    .logo {
+        width: 120px;
     }
-    
-    .jersey-img {
-        height: 220px;
+    .wishlist-icon img,
+    .cart-icon img {
+        width: 24px;
+        height: 24px;
     }
-    
-    .footer-content {
-        grid-template-columns: 1fr;
-        text-align: center;
+    .heart {
+        font-size: 16px;
     }
-} 
+    .cart-btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+    .jersey-info h3 {
+        font-size: 16px;
+    }
+    .jersey-info .price {
+        font-size: 14px;
+    }
+}

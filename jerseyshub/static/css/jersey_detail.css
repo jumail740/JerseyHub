@@ -386,3 +386,215 @@ background:#2f6fed;
 color:white;
 border-color:#2f6fed;
 }
+/* ================== Jersey Detail Responsive Styles ================== */
+
+/* Mobile phones (≤480px) */
+@media (max-width: 480px) {
+    .nav {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 8px;
+    }
+    .nav .logo {
+        width: 100px;
+        margin-bottom: 5px;
+    }
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        margin: 5px 0;
+    }
+    .nav-links a {
+        margin: 4px 0;
+        font-size: 13px;
+    }
+    .search-box {
+        width: 100%;
+        font-size: 13px;
+        margin: 5px 0;
+    }
+    .wishlist-icon img,
+    .cart-icon img {
+        width: 20px;
+        height: 20px;
+    }
+    .logout-btn {
+        width: 100%;
+        text-align: center;
+        margin-top: 5px;
+    }
+    .back-btn {
+        font-size: 14px;
+        padding: 5px 8px;
+    }
+    h1 {
+        font-size: 18px;
+        text-align: center;
+        margin: 8px 0;
+    }
+    .price {
+        font-size: 16px;
+        text-align: center;
+    }
+    .desc {
+        font-size: 14px;
+    }
+    .product-container {
+        flex-direction: column;
+        display: flex;
+        padding: 5px;
+    }
+    .product-image {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .img-box img {
+        width: 100%;
+        height: auto;
+    }
+    .thumbnail-container {
+        display: flex;
+        overflow-x: auto;
+        gap: 5px;
+        padding: 5px 0;
+    }
+    .thumbnail-container img {
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+    .product-info {
+        width: 100%;
+        padding: 5px;
+    }
+    .size-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    .size-btn {
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+    #cartBtn, .cart-btn {
+        width: 100%;
+        font-size: 13px;
+        padding: 6px 0;
+    }
+    .customize {
+        flex-direction: column;
+    }
+    .customize input {
+        font-size: 13px;
+        padding: 4px;
+    }
+    #sizeError {
+        font-size: 12px;
+    }
+}
+
+/* Small tablets (481px – 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .nav-links {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    h1 {
+        font-size: 22px;
+        text-align: center;
+    }
+    .price {
+        font-size: 18px;
+    }
+    .desc {
+        font-size: 15px;
+    }
+    .product-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+    .thumbnail-container img {
+        width: 60px;
+        height: 60px;
+    }
+    .size-btn {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+    #cartBtn, .cart-btn {
+        font-size: 14px;
+        padding: 8px 0;
+    }
+}
+
+/* Larger tablets / small desktops (769px – 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .product-container {
+        flex-direction: row;
+        gap: 20px;
+    }
+    .product-image, .product-info {
+        width: 50%;
+    }
+    h1 {
+        font-size: 24px;
+    }
+    .price {
+        font-size: 20px;
+    }
+    .desc {
+        font-size: 16px;
+    }
+    .thumbnail-container img {
+        width: 70px;
+        height: 70px;
+    }
+    .size-btn {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    #cartBtn, .cart-btn {
+        font-size: 15px;
+        padding: 10px 0;
+    }
+}
+
+/* Medium desktops (1025px – 1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .product-container {
+        gap: 30px;
+    }
+    h1 {
+        font-size: 26px;
+    }
+    .price {
+        font-size: 22px;
+    }
+}
+
+/* Large desktops (1281px+) */
+@media (min-width: 1281px) {
+    .product-container {
+        gap: 40px;
+    }
+    h1 {
+        font-size: 28px;
+    }
+    .price {
+        font-size: 24px;
+    }
+    .thumbnail-container img {
+        width: 80px;
+        height: 80px;
+    }
+    .size-btn {
+        padding: 10px 14px;
+        font-size: 15px;
+    }
+    #cartBtn, .cart-btn {
+        font-size: 16px;
+        padding: 12px 0;
+    }
+}
